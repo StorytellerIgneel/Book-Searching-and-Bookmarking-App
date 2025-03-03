@@ -1,30 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const API_URL = "http://127.0.0.1:8000/test";
 
-// Define the user type
-interface User {
-  id: number;
-  name: string;
-  email: string;
-}
-
 const App = () => {  
-  const [response, setResponse] = useState("response");
+  const [response, setResponse] = useState("Click the button to fetch data");
 
-  useEffect(() => {
-    console.log("Fetching data from:", API_URL); // Debug: Check if URL is corre 
+  const fetchData = () => {
+    console.log("Fetching data from:", API_URL);
     axios.get(API_URL)
-      .then(response => {
-        setResponse( response.data.test); // Debugging
+      .then(res => {
+        console.log("API Response:", res.data);
+        setResponse(res.data.test);
       })
       .catch(error => console.error("API Error:", error));
-  }, []);
+  };
 
   return (
     <div>
       <h1>User List</h1>
+      <button onClick={fetchData}>Fetch Data</button>
       <p>{response}</p>
     </div>
   );
