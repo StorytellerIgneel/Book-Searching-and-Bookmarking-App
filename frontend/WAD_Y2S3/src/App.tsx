@@ -1,28 +1,39 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import {UserProvider} from "./contexts/UserContext";
+import LoginPage from "./pages/LoginPage.jsx";
+import TestingPage from "./pages/TestingPage.jsx";
 
-const API_URL = "http://127.0.0.1:8000/test";
-
-const App = () => {  
-  const [response, setResponse] = useState("Click the button to fetch data");
-
-  const fetchData = () => {
-    console.log("Fetching data from:", API_URL);
-    axios.get(API_URL)
-      .then(res => {
-        console.log("API Response:", res.data);
-        setResponse(res.data.test);
-      })
-      .catch(error => console.error("API Error:", error));
-  };
-
+function App() {
   return (
     <div>
-      <h1>User List</h1>
-      <button onClick={fetchData}>Fetch Data</button>
-      <p>{response}</p>
+      <UserProvider>
+          <HashRouter>
+              <Routes>
+                {/* <Route path="/" element={<Layout />}>
+                  <Route index element={<MainPage />} />
+                  <Route path="/store" element={<StorePage />} />
+                  <Route path="/store/:game_id" element={<ProductPage />} />
+                  <Route path="/support" element={<Email />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/faq" element={<FAQ/>}/>
+                </Route> */}
+                <Route path="/" element={<LoginPage/>} />
+            </Routes>
+          </HashRouter>
+        </UserProvider>
     </div>
   );
-};
+}
+
+// const App = () => {  
+//   return (
+//     <div>
+//       <LoginPage/>
+//     </div>
+//   )
+// };
 
 export default App;
