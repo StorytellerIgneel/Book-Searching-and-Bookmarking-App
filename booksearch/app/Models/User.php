@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image_path',
     ];
 
     /**
@@ -44,5 +45,15 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // Get all ratings made by the user
+    public function ratings(){
+        return $this->hasMany(Rating::class);
+    }
+
+    // Get all favourite books of user
+    public function favourites(){
+        return $this->hasMany(Favourite::class);
     }
 }

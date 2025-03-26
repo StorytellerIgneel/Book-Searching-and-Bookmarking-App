@@ -14,11 +14,8 @@ return new class extends Migration
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
             $table->string('name');
-            $table->string('profile_image_path')->nullable();
             $table->text('bio')->nullable();
-            $table->boolean('is_visible')->default(true);
         });
     }
 

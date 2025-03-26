@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('books', function (Blueprint $table) {
+        Schema::create('favourites', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(\App\Models\User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Book::class)->constrained()->cascadeOnDelete();
             $table->timestamps();
-            $table->foreignIdFor(\App\Models\Author::class);
-            $table->string('name')->unique();
-            $table->text('summary')->nullable(); 
-            //$table->year('year_published');
-            //$table->string('cover_image_path')->nullable(); 
+
+            $table->unique(['user_id', 'book_id']);
         });
     }
 
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('books');
+        Schema::dropIfExists('favourites');
     }
 };
