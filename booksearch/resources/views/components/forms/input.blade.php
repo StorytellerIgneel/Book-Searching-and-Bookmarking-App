@@ -13,6 +13,7 @@
         'value' => old($name),
     ]
 @endphp
+
 <label for={{ $name }} class="block text-sm font-medium text-gray-700">{{ $label }}</label>
 <div class="mt-1">
     <input {{ $attributes($defaults) }} {{ $required ? 'required' : '' }}>

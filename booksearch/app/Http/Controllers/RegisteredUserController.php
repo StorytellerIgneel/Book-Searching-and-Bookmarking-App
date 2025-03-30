@@ -40,8 +40,8 @@ class RegisteredUserController extends Controller
 
         // Store the profile picture if provided
         if ($request->hasFile('profile_picture')) {
-            $profileImagePath = $request->profile_picture->store('profile_pictures', 'public');
-            $validated['profile_image_path'] = $profileImagePath;
+            $profileImagePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $validated['profile_image_path'] = 'storage/' . $profileImagePath;
         }
 
         $user = User::create($validated);

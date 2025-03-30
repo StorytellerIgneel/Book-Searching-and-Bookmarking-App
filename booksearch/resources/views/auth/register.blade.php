@@ -95,6 +95,7 @@
                     onchange="previewImage(this)">
                 </div>
                 </div>
+                <x-forms.error name="profile_picture" />
             </div>
             
             <!-- Minimal JavaScript for preview functionality -->
@@ -147,7 +148,7 @@
                     type="tel"
                     name="phone"
                     label="Phone (Optional)"
-                    placeholder="+1 (555) 123-4567"
+                    placeholder="011-10548527"
                     :required="false"
                 />
             </div>
@@ -155,11 +156,7 @@
       
           <!-- Submit Button -->
           <div class="pt-4 md:col-span-2">
-            <button 
-              type="submit" 
-              class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-              Register
-            </button>
+            <x-forms.submit-button>Register</x-forms.submit-button>
           </div>
         </form>
       </div>

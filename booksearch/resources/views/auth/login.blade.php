@@ -25,28 +25,14 @@
                 />
             </div>
             <div class="mt-0 pt-0">
-              <div class="flex items-center mt-1">
-                <!-- Remember Me -->
-                <input 
-                  id="remember_me" 
-                  name="remember" 
-                  type="checkbox" 
-                  class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                >
-                <label for="remember_me" class="ml-2 block text-sm text-gray-700">
-                  Remember me
-                </label>
-              </div>
+              <!-- Remember Me -->
+              <x-forms.checkbox name="remember_me" label="Remember me" />
             </div>
           </div>
 
           <!-- Submit Button -->
           <div class="pt-4 md:col-span-2">
-              <button 
-                  type="submit" 
-                  class="flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-3 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
-                  Sign In
-              </button>
+            <x-forms.submit-button>Sign In</x-forms.submit-button>
           </div>
 
           <!-- Registration Link -->
