@@ -7,10 +7,9 @@
             <!-- Email -->
             <div class="md:col-span-3">
                 <x-forms.input 
-                    type="email"
-                    name="email"  
-                    label="Email Address"
-                    placeholder="your@email.com" 
+                    name="username"  
+                    label="Username"
+                    placeholder="Username" 
                     autocomplete="username"
                 />
             </div>
