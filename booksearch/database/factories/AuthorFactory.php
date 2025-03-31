@@ -18,11 +18,8 @@ class AuthorFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory(), 
             'name' => fake()->name(),
-            'profile_path' => fake()->optional()->imageUrl(), 
-            'bio' => fake()->optional()->text(200), 
-            'is_visible' => fake()->boolean(80), 
+            'bio' => fake()->optional()->paragraph(), 
         ];
     }
 }

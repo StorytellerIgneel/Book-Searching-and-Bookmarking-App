@@ -17,7 +17,9 @@ class BookFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'author_id' => rand(1,20), //Create 20 authors first
+            'name' => fake()->unique()->sentence(3),
+            'summary' => fake()->optional()->paragraph(),
         ];
     }
 }

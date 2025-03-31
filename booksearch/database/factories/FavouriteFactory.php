@@ -1,21 +1,20 @@
 <?php
 
 namespace Database\Factories;
-use App\Models\User;
-use App\Models\Book;
-use App\Models\Rating;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Book;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Rating>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Favourite>
  */
-class RatingFactory extends Factory
+class FavouriteFactory extends Factory
 {
     /**
      * Define the model's default state.
      *
-     * @return array<string, mixed> 
+     * @return array<string, mixed>
      */
     public function definition(): array
     {
@@ -24,7 +23,6 @@ class RatingFactory extends Factory
             'book_id' => Book::factory(),
             // 'user_id' => rand(2, 50),
             // 'book_id' => rand(1, 200),
-            'score' => rand(1, 5),
         ];
     }
 }
