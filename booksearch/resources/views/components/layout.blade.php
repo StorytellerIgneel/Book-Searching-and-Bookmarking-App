@@ -105,8 +105,8 @@
 
         <!-- Main Content Area -->
         <div class="flex flex-1">
-            <!-- Sidebar - Initially hidden -->
-            <aside id="sidebar" class="hidden w-56 bg-gray-800 transform transition-all duration-300 ease-in-out">
+            <!-- Sidebar -->
+            <aside id="sidebar" class="w-64 bg-gray-800 text-white transform -translate-x-full transition-all duration-300 ease-in-out opacity-0 invisible">
                 <div class="py-3 text-xl uppercase text-center tracking-widest bg-gray-900 border-b border-gray-700">
                     <a href="/" class="text-white">Menu</a>
                 </div>
@@ -127,7 +127,7 @@
             </aside>
 
             <!-- Page Content -->
-            <main class="flex-1 px-4 md:p-6 lg:p-8 pt-0 overflow-auto">
+            <main class="flex-1 px-4 md:p-6 lg:p-8 pt-0 overflow-auto mr-64">
                 {{ $slot }}
             </main>
         </div>
@@ -139,16 +139,29 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebarToggle = document.getElementById('sidebarToggle');
-            const sidebar = document.getElementById('sidebar');
-            
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('hidden');
-                sidebar.classList.toggle('translate-x-0');
-                sidebar.classList.toggle('-translate-x-full');
-            });
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebar = document.getElementById('sidebar');
+        const pageWrapper = document.querySelector('main');
+
+        sidebarToggle.addEventListener('click', function() {
+            if (sidebar.classList.contains('invisible')) {
+                sidebar.classList.remove('invisible');
+                setTimeout(() => {
+                    sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                    sidebar.classList.add('opacity-100');
+                }, 10);
+                pageWrapper.classList.remove('mr-64');
+            } else {
+                sidebar.classList.remove('opacity-100');
+                sidebar.classList.add('opacity-0');
+                setTimeout(() => {
+                    sidebar.classList.add('-translate-x-full', 'invisible');
+                }, 300); 
+                pageWrapper.classList.add('mr-64');
+            }
         });
+    });
     </script>
 </body>
 </html>
