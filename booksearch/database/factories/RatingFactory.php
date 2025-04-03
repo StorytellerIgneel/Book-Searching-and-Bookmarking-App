@@ -3,7 +3,6 @@
 namespace Database\Factories;
 use App\Models\User;
 use App\Models\Book;
-use App\Models\Rating;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
