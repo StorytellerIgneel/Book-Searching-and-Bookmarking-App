@@ -1,6 +1,6 @@
 <x-layout>
-  <h2 class="text-2xl font-semibold text-gray-900 text-center my-2">Login to Your Account</h2>
-  <div class="max-w-2xl mx-auto p-8 border border-gray-200 rounded-lg shadow-sm bg-white mt-4">
+    <x-header name="title">Login to your account</x-header>
+  <div class="max-w-md mx-auto p-6 border border-gray-200 rounded-lg shadow-sm bg-white mt-3">
       <form method="POST" action="/login" class="space-y-6">
           @csrf
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mb-0">
