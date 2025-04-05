@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Author;
 use Illuminate\Http\Request;
 use App\Models\Book;
 
@@ -11,12 +12,17 @@ class SearchController extends Controller
     {
         $request->validate([
             'query' => 'nullable|string',
-            'type' => 'nullable|string',
             'per_page' => 'nullable|integer',
+            'bookPage' => 'nullable|integer',
+            'authorPage' => 'nullable|integer',
         ]);
 
-        $query = $request->input('query', '');
-        
+        $query = $request->input('query', ''); // Get the 'query' parameter from the request
+        $perPage = $request->input('per_page', 12); // Get the 'per_page' value or default to 12
+        $bookPage = $request->input('bookPage', 1); // Get the 'bookPage' query parameter (default to 1)
+        $authorPage = $request->input('authorPage', 1); // Get the 'authorPage' query parameter (default to 1)
+
+
         // Early return if query is too short
         if (!empty($query) && strlen($query) < 3) {
             return view('search', [
@@ -25,21 +31,42 @@ class SearchController extends Controller
             ]);
         }
 
+        
         $books = Book::query()
-            ->with(['author', 'ratings'])
+            ->with(['author', 'ratings', 'favourites'])
+            ->withCount('ratings')
+            ->withAvg('ratings', 'score')
+            ->withCount('favourites')
             ->where('name', 'LIKE', '%'.$query.'%')
-            ->where('summary', 'LIKE', '%'.$query.'%')
-            ->get();
+            ->paginate($request->input('per_page', 12), ['*'], 'bookPage');
 
-        // $books = $books->map(function ($book) {
-        //     return $book->only(['id', 'name', 'summary']);
-        // });
-        // dd($books);
+        $authors = Author::query()
+            ->where('name', 'LIKE', '%'.$query.'%')
+            ->with(['books' => function($query) {
+                $query->withAvg('ratings', 'score')
+                      ->limit(3); // Get top 3 books per author
+            }])
+            ->paginate($request->input('per_page', 12), ['*'], 'authorPage');
+
+        $books->appends([
+            'query' => $query, 
+            'bookPage' => $bookPage, 
+            'authorPage' => $authorPage,
+            'per_page' => $perPage
+        ]);
+        
+        $authors->appends([
+            'query' => $query, 
+            'bookPage' => $bookPage, 
+            'authorPage' => $authorPage,
+            'per_page' => $perPage
+        ]);            
 
         // Return the search results
         return view('search', [
             'query' => $query,
             'books' => $books,
+            'authors' => $authors,
         ]);
     }
 }
