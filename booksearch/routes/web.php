@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,3 +18,5 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');  
+
+Route::get('/search', SearchController::class)->name('search');
