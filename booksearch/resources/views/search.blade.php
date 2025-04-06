@@ -47,9 +47,12 @@
                     </div>
                 @else
                     <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($authors as $author)
-                        <x-author-card :author="$author" />
-                    @endforeach
+                        @foreach ($authors as $author)
+                            <x-author-card :author="$author" />
+                        @endforeach
+                    </div>
+                    <div class="mt-6">
+                        {{ $authors->links() }}
                     </div>
                 @endif
             </div>
