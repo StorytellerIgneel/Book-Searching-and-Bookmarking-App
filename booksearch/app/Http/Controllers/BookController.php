@@ -21,4 +21,16 @@ class BookController extends Controller
             'books' => $books,
         ]);
     }
+
+    public function show(Book $book)
+    {
+        // Fetch the book with its author, ratings, and favourites
+        $book->load(['author', 'ratings', 'favourites']);
+
+        // Return the book to the view
+        return view('books.show', [
+            'book' => $book,
+        ]);
+
+    }
 }
