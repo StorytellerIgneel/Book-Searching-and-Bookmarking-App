@@ -14,6 +14,7 @@ class Author extends Model
     protected $fillable = [
         'name',
         'bio',
+        "image_link"
     ];
 
     // Get the books written by the author.

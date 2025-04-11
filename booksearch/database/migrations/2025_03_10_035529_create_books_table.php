@@ -16,7 +16,8 @@ return new class extends Migration
             $table->timestamps();
             $table->foreignIdFor(\App\Models\Author::class);
             $table->string('name')->unique();
-            $table->text('summary')->nullable(); 
+            $table->text('synopsis');
+            $table->text('cover_image_link')->nullable(); 
             //$table->year('year_published');
             //$table->string('cover_image_path')->nullable(); 
         });
