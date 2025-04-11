@@ -33,7 +33,7 @@ class RatingController extends Controller
             'book_id' => 'required|exists:books,id',
         ]);
 
-        Rating::where('user_id', request()->user()->id)
+        Rating::where('user_id', $request->user()->id)
                 ->where('book_id', $validated['book_id'])
                 ->delete();
 

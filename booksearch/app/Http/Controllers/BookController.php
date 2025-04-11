@@ -14,9 +14,8 @@ class BookController extends Controller
         // Fetch all books from the database
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
-            ->withCount('ratings')
+            ->withCount(['ratings', 'favourites'])
             ->withAvg('ratings', 'score')
-            ->withCount('favourites')
             ->paginate(24);
 
         // Return the books to the view
@@ -26,9 +25,8 @@ class BookController extends Controller
     }
 
     public function show(Book $book){
-        $book->loadCount('ratings')
-            ->loadAvg('ratings', 'score')
-            ->loadCount('favourites');
+        $book->loadCount(['ratings', 'favourites'])
+            ->loadAvg('ratings', 'score');
 
         // Get the authenticated user's rating for this book (if exists)
         $userRating = Auth::check() 
@@ -47,7 +45,9 @@ class BookController extends Controller
         // Get similar books (example by same author)
         $similarBooks = Book::where('author_id', $book->author_id)
             ->where('id', '!=', $book->id)
-            ->with('author')
+            ->with(['author', 'ratings', 'favourites'])
+            ->withCount(['ratings', 'favourites'])
+            ->withAvg('ratings', 'score')
             ->take(4)
             ->get();
 

@@ -31,8 +31,7 @@ class AuthorController extends Controller
             ->with(['author', 'ratings', 'favourites'])
             ->where('author_id', $author->id)
             ->withAvg('ratings', 'score')
-            ->withCount('ratings')
-            ->withCount('favourites')
+            ->withCount(['ratings', 'favourites'])
             ->orderByDesc('ratings_avg_score')
             ->paginate(12);
 
