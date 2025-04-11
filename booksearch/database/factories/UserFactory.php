@@ -27,7 +27,7 @@ class UserFactory extends Factory
             'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'password' => static::$password ??= Hash::make('password'),
-            'profile_image_path' => fake()->optional()->imageUrl(),
+            'profile_image_link' => fake()->optional()->imageUrl(),
             'date_of_birth' => fake()->dateTimeBetween('-80 years', '-13 years')->format('Y-m-d'),
             'phone' => fake()->optional()->phoneNumber(),
             'is_admin' => false,

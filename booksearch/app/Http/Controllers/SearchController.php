@@ -46,6 +46,7 @@ class SearchController extends Controller
                 $query->withAvg('ratings', 'score')
                       ->limit(3); // Get top 3 books per author
             }])
+            ->withCount('books')
             ->paginate($request->input('per_page', 12), ['*'], 'authorPage');
 
         $books->appends([

@@ -1,7 +1,7 @@
 @props(['author'])
 
 <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 transform hover:scale-[1.02] h-full flex flex-col">
-    <a href="{{ 'authors/'. $author->id }}" class="block p-5 group flex-grow">
+    <a href="{{ route('authors.show', $author->id) }}" class="block p-5 group flex-grow">
         <div class="flex items-start space-x-4">
             <!-- Author Avatar Placeholder -->
             <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
@@ -35,15 +35,10 @@
             <ul class="space-y-2">
                 @foreach ($author->books->sortByDesc('ratings_avg_score')->take(3) as $book)
                     <li class="flex items-center justify-between">
-                        <a href="{{ 'books/' . $book->id }}" class="text-sm font-medium text-gray-700 truncate pr-2 hover:text-blue-600 transition-colors flex-grow">
+                        <a href="{{ route('books.show' , $book->id) }}" class="text-sm font-medium text-gray-700 truncate pr-2 hover:text-blue-600 transition-colors flex-grow">
                             {{ $book->name }}
                         </a>
-                        <span class="flex-shrink-0 text-xs font-semibold px-2 py-1 rounded-full 
-                                @if($book->ratings_avg_score >= 4) bg-green-50 text-green-700
-                                @elseif($book->ratings_avg_score >= 3) bg-yellow-50 text-yellow-700
-                                @else bg-red-50 text-red-700 @endif">
-                            ★ {{ number_format($book->ratings_avg_score ?? 0, 1) }}
-                        </span>
+                        <x-rating :$book />
                     </li>
                 @endforeach
             </ul>

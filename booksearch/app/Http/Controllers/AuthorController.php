@@ -15,6 +15,7 @@ class AuthorController extends Controller
                 $query->withAvg('ratings', 'score')
                     ->limit(3); // Get top 3 books per author
             }])
+            ->withCount('books')
             ->paginate(24);
 
         // Return the authors to the view

@@ -14,14 +14,6 @@
                     {{-- Author Details --}}
                     <div>
                         <h2 class="text-2xl font-bold text-gray-800">{{ $author->name }}</h2>
-                        @if($author->birth_date)
-                            <p class="text-sm text-gray-500">
-                                Born {{ $author->birth_date->format('F j, Y') }}
-                                @if($author->death_date)
-                                    - Died {{ $author->death_date->format('F j, Y') }}
-                                @endif
-                            </p>
-                        @endif
                     </div>
                 </div>
                 
@@ -34,11 +26,6 @@
                 
                 {{-- Additional Metadata --}}
                 <div class="mt-4 flex flex-wrap gap-2">
-                    @if($author->nationality)
-                        <span class="px-3 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">
-                            {{ $author->nationality }}
-                        </span>
-                    @endif
                     @if($books->total() > 0)
                         <span class="px-3 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                             {{ $books->total() }} {{ Str::plural('book', $books->total()) }}
