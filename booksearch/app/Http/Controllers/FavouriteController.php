@@ -10,7 +10,7 @@ class FavouriteController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'book_id' => 'required|exists:books,id',
+            'book_id' => ['required', 'exists:books,id'],
         ]);
     
         $favourite = Favourite::firstOrCreate([
@@ -23,7 +23,7 @@ class FavouriteController extends Controller
     
     public function destroy(Request $request){
         $validated = $request->validate([
-            'book_id' => 'required|exists:books,id',
+            'book_id' => ['required', 'exists:books,id'],
         ]);
 
         Favourite::where('user_id', $request->user()->id)

@@ -31,6 +31,9 @@ Route::get('/search', SearchController::class)->name('search');
 Route::controller(AuthorController::class)->group(function () {
     Route::get('/authors', 'index')->name('authors.index');
     Route::get('/authors/{author}', 'show')->name('authors.show');
+
+    // Route::get('/authors/create', 'create')->name('authors.create');
+    // Route::post('/authors', 'store')->name('authors.store');
 });
 
 
@@ -38,13 +41,15 @@ Route::controller(AuthorController::class)->group(function () {
 Route::controller(BookController::class)->group(function () {
     Route::get('/books', 'index')->name('books.index');
     Route::get('/books/{book}', 'show')->name('books.show');
+
+    // Route::get('/books/create', 'create')->name('books.create');
+    // Route::post('/books', 'store')->name('books.store'); 
 });
 
 // Ratings and favourites
 Route::middleware(['auth'])->group(function () {
     // Rating routes
     Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
-    Route::delete('/favourites', [RatingController::class, 'destroy'])->name('ratings.destroy');
 
     // Favourite routes
     Route::post('/favourites', [FavouriteController::class, 'store'])->name('favourites.store');

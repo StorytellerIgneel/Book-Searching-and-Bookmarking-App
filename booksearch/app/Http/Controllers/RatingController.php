@@ -13,29 +13,32 @@ class RatingController extends Controller
             'score' => ['required', 'integer', 'between:0,5'],
         ]);
         
+        // Handle rating removal is score is 0
         if ($validated['score'] == 0) {
             return $this->destroy($request);
-        } else {
-            Rating::updateOrCreate(
-                [
-                    'user_id' => $request->user()->id,
-                    'book_id' => $validated['book_id']
-                ],
-                ['score' => $validated['score']]
-            );
-
-            return back()->with('success', 'Rating saved successfully!');
         }
+
+        // Update or create the rating
+        Rating::updateOrCreate(
+            [
+                'user_id' => $request->user()->id,
+                'book_id' => $validated['book_id']
+            ],
+            ['score' => $validated['score']]
+        );
+
+        return back()->with('success', 'Rating saved successfully!');
     }
 
     public function destroy(Request $request){
         $validated = $request->validate([
-            'book_id' => 'required|exists:books,id',
+            'book_id' => ['required', 'exists:books,id'],
         ]);
 
-        Rating::where('user_id', $request->user()->id)
-                ->where('book_id', $validated['book_id'])
-                ->delete();
+        Rating::where([
+            'user_id' => $request->user()->id,
+            'book_id' => $validated['book_id']
+        ])->delete();
 
         return back()->with('success', 'Rating removed successfully!');
     }
