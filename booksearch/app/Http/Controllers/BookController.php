@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
+use App\Models\Rating;
+use App\Models\Favourite;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
@@ -22,15 +25,37 @@ class BookController extends Controller
         ]);
     }
 
-    public function show(Book $book)
-    {
-        // Fetch the book with its author, ratings, and favourites
-        $book->load(['author', 'ratings', 'favourites']);
+    public function show(Book $book){
+        $book->loadCount('ratings')
+            ->loadAvg('ratings', 'score')
+            ->loadCount('favourites');
 
-        // Return the book to the view
+        // Get the authenticated user's rating for this book (if exists)
+        $userRating = Auth::check() 
+            ? Rating::where('user_id', Auth::id())
+                    ->where('book_id', $book->id)
+                    ->value('score')
+            : null;
+
+        // Check if the book is favorited by the authenticated user
+        $isFavourite = Auth::check() 
+            ? Favourite::where('user_id', Auth::id())
+                    ->where('book_id', $book->id)
+                    ->exists()
+            : false;
+
+        // Get similar books (example by same author)
+        $similarBooks = Book::where('author_id', $book->author_id)
+            ->where('id', '!=', $book->id)
+            ->with('author')
+            ->take(4)
+            ->get();
+
         return view('books.show', [
             'book' => $book,
+            'userRating' => $userRating,
+            'isFavourite' => $isFavourite,
+            'similarBooks' => $similarBooks,
         ]);
-
     }
 }

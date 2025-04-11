@@ -9,19 +9,23 @@ class RatingController extends Controller
 {
     public function store(Request $request){
         $validated = $request->validate([
-            'book_id' => 'required|exists:books,id',
-            'rating' => 'required|integer|between:1,5',
+            'book_id' => ['required', 'exists:books,id'],
+            'score' => ['required', 'integer', 'between:0,5'],
         ]);
+        
+        if ($validated['score'] == 0) {
+            return $this->destroy($request);
+        } else {
+            Rating::updateOrCreate(
+                [
+                    'user_id' => $request->user()->id,
+                    'book_id' => $validated['book_id']
+                ],
+                ['score' => $validated['score']]
+            );
 
-        $rating = Rating::updateOrCreate(
-            [
-                'user_id' => $request->user()->id,
-                'book_id' => $validated['book_id']
-            ],
-            ['rating' => $validated['rating']]
-        );
-
-        return back()->with('success', 'Rating saved successfully!');
+            return back()->with('success', 'Rating saved successfully!');
+        }
     }
 
     public function destroy(Request $request){
