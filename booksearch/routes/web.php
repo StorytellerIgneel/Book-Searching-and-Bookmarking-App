@@ -7,6 +7,7 @@ use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Home Page
@@ -46,8 +47,13 @@ Route::controller(BookController::class)->group(function () {
     // Route::post('/books', 'store')->name('books.store'); 
 });
 
-// Ratings and favourites
+// Authenticated user routes
 Route::middleware(['auth'])->group(function () {
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+
     // Rating routes
     Route::post('/ratings', [RatingController::class, 'store'])->name('ratings.store');
 
