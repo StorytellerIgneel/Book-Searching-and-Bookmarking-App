@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\RegisteredUserController;
@@ -10,12 +11,14 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+// Public Routes
 // Home Page
-Route::get('/', function () {
-    return view('home');
-})->name('home');
+Route::get('/', HomeController::class)->name('home');
 
-// Authentication
+// Search
+Route::get('/search', SearchController::class)->name('search');
+
+// Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'create'])->name('login');
     Route::post('/login', [SessionController::class, 'store'])->name('login.store');
@@ -24,9 +27,6 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 });
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');  
-
-// Search
-Route::get('/search', SearchController::class)->name('search');
 
 // Author routes
 Route::controller(AuthorController::class)->group(function () {
