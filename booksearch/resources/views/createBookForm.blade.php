@@ -1,8 +1,17 @@
-<h1>Add book</h1>
-<form action="addBook" method="post">
+<h1>Create Book</h1>
+<form action="createBook" method="post" enctype="multipart/form-data">
     @csrf
-    <input type="text" name="name" placeholder="Type book name"><br><br>
-    <textarea name="synopsis" placeholder="Type book synopsis" rows="5" cols="50"></textarea>
-    <input type="file" name="image" required placeholder="Upload book cover page">
-    <button type="submit">Add</button>
+    <input type="text" name="title" placeholder="Type book's title" value="{{ old('title') }}"><br>
+    <span style="color: red">@error('title'){{ $message }}@enderror</span><br><br>
+
+    <textarea name="synopsis" placeholder="Type book synopsis" rows="5" cols="50">{{ old('synopsis') }}</textarea><br>
+    <span style="color: red">@error('synopsis'){{ $message }}@enderror</span><br><br>
+
+    <input type="number" name="author_id" placeholder="Type book author's id" value="{{ old('author_id') }}"><br>
+    <span style="color: red">@error('author_id'){{ $message }}@enderror</span><br><br>
+
+    <input type="file" name="cover" required placeholder="Upload book cover"><br><br>
+    <span style="color: red">@error('cover'){{ $message }}@enderror</span><br>
+
+    <button type="submit">Create</button>
 </form>
