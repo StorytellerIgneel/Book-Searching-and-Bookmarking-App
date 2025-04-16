@@ -60,4 +60,5 @@ Route::middleware(['auth'])->group(function () {
     // Favourite routes
     Route::post('/favourites', [FavouriteController::class, 'store'])->name('favourites.store');
     Route::delete('/favourites', [FavouriteController::class, 'destroy'])->name('favourites.destroy');
+    Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites.index');
 });

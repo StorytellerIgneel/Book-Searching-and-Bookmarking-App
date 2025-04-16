@@ -7,6 +7,16 @@ use App\Models\Favourite;
 
 class FavouriteController extends Controller
 {
+    // Show all favourite books by the user
+    public function index(Request $request)
+    {
+        $favourites = Favourite::where('user_id', $request->user()->id)
+            ->with('book.author')
+            ->get();
+
+        return view('favourites', ['favourites' => $favourites]);
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([

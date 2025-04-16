@@ -112,6 +112,8 @@
                 <nav class="text-sm text-gray-300">
                     <ul class="flex flex-col">
                         <!-- Your sidebar items here -->
+
+                        <!-- Your Profile Button -->
                         <x-nav.item href="/profile" :active="request()->is('profile')" >
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -121,6 +123,7 @@
                             Your Profile
                         </x-nav.item>
 
+                        <!-- Book List Button -->
                         <x-nav.item href="/books" :active="request()->is('books')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -130,6 +133,7 @@
                             Book List
                         </x-nav.item>
 
+                        <!-- Author List Button -->
                         <x-nav.item href="/authors" :active="request()->is('authors')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -138,6 +142,17 @@
                             </x-slot:icon>
                             Author List
                         </x-nav.item>
+
+                        <!-- User Favourite Button -->
+                        <x-nav.item href="/favourites" :active="request()->is('favourite')">
+                            <x-slot:icon>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
+                                </svg>
+                            </x-slot:icon>
+                            Favourite Books
+                        </x-nav.item>
+
 
                         <x-nav.header>USER MANAGEMENT</x-nav.header>
 
