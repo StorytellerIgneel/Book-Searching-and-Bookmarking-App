@@ -11,38 +11,40 @@ use Illuminate\Support\Facades\Auth;
 class BookController extends Controller
 {
     public function index(){
-        // Fetch all books from the database
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
             ->withCount(['ratings', 'favourites'])
             ->withAvg('ratings', 'score')
             ->paginate(24);
 
-        // Return the books to the view
         return view('books.index', [
             'books' => $books,
         ]);
     }
 
-    public function show(Book $book){
+    public function show(Request $request, Book $book){
+        //Cookie for recently browsed books
+        $recentlyBrowsedIds = $request->cookie('recently_browsed') 
+        ? json_decode($request->cookie('recently_browsed'), true) 
+        : [];
+
+        $updatedIds = $this->updateRecentlyBrowsed($book->id, $recentlyBrowsedIds);
+
         $book->loadCount(['ratings', 'favourites'])
             ->loadAvg('ratings', 'score');
 
-        // Get the authenticated user's rating for this book (if exists)
         $userRating = Auth::check() 
             ? Rating::where('user_id', Auth::id())
                     ->where('book_id', $book->id)
                     ->value('score')
             : null;
 
-        // Check if the book is favorited by the authenticated user
         $isFavourite = Auth::check() 
             ? Favourite::where('user_id', Auth::id())
                     ->where('book_id', $book->id)
                     ->exists()
             : false;
 
-        // Get similar books (example by same author)
         $similarBooks = Book::where('author_id', $book->author_id)
             ->where('id', '!=', $book->id)
             ->with(['author', 'ratings', 'favourites'])
@@ -51,11 +53,17 @@ class BookController extends Controller
             ->take(4)
             ->get();
 
-        return view('books.show', [
+        return response()->view('books.show', [
             'book' => $book,
             'userRating' => $userRating,
             'isFavourite' => $isFavourite,
             'similarBooks' => $similarBooks,
-        ]);
+        ])->cookie('recently_browsed', json_encode($updatedIds), 60 * 24 * 30);
+    }
+
+    private function updateRecentlyBrowsed($bookId, $currentIds){
+        $currentIds = array_diff($currentIds, [$bookId]);
+        array_unshift($currentIds, $bookId);
+        return array_slice($currentIds, 0, 10);
     }
 }

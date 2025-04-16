@@ -24,17 +24,14 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('admin'),
         ]);
 
-        User::factory(20)->create();
+        Author::factory(100)->create();
 
-        Author::factory(20)->create();
+        foreach (range(1, 500) as $_) {
+            Book::factory()
+                ->hasRatings(rand(1, 5))
+                ->hasFavourites(rand(1, 20))
+                ->create();
+        }
 
-        Book::factory(200)->create();
-
-        $this->call([
-            RatingSeeder::class,
-            FavouriteSeeder::class,
-        ]);
-
-        Favourite::factory(500)->create()->unique(['user_id', 'book_id']);
     }
 }

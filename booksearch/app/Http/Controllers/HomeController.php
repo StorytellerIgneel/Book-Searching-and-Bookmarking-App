@@ -13,6 +13,7 @@ class HomeController extends Controller {
             ->withCount(['ratings', 'favourites'])
             ->withAvg('ratings', 'score')
             ->having('ratings_avg_score', '>', 3)
+            ->having('ratings_count', '>', 3)
             ->orderByDesc('ratings_avg_score')
             ->orderByDesc('ratings_count')
             ->take(15)
@@ -24,7 +25,8 @@ class HomeController extends Controller {
             ->withCount(['ratings', 'favourites'])
             ->withAvg('ratings', 'score')
             ->orderByDesc('favourites_count')
-            ->having('favourites_count', '>=', 1)
+            ->orderByDesc('ratings_avg_score')
+            ->having('favourites_count', '>=', 5)
             ->take(15)
             ->get();
 

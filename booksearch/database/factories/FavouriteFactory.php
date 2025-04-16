@@ -21,8 +21,6 @@ class FavouriteFactory extends Factory
         return [
             'user_id' => User::factory(),
             'book_id' => Book::factory(),
-            // 'user_id' => rand(2, 50),
-            // 'book_id' => rand(1, 200),
         ];
     }
 }
