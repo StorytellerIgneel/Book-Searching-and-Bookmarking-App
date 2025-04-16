@@ -56,7 +56,7 @@
 
             <!-- Name field -->
             <x-forms.input                     
-                name="name"  
+                name="username"  
                 label="name"
                 placeholder="Your username"
                 value="{{ old('username', $user->username) }}"

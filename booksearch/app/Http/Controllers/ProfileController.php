@@ -34,7 +34,7 @@ class ProfileController extends Controller
             File::image()->min('1kb')->max('10mb'),
             Rule::dimensions()->maxHeight(1000)->maxWidth(1000),
         ],
-        'name' => 'required|string|max:255|unique:users,username,' . $request->user()->id,
+        'username' => 'required|string|max:255|unique:users,username,' . $request->user()->id,
         'email' => 'required|string|email|max:255|unique:users,email,' . $request->user()->id,
         'phone' => 'nullable|string|max:15',
     ]);
