@@ -2,10 +2,7 @@
 Advanced web course. Front end reactjs, backend laravel 
 
 # How To Run
-- Frontend:
 - ensure that you have react and vite installed
-- cd into frontend/WAD_Y2S3 and run "npm run dev"
-
-- backend:
-- cd into backend and run "php artisan serve"
+- cd into WAD_Y2S3/booksearch and run both "npm run dev" and "php artisan serve"
+- ensure to run "php artisan storage:link" too
 - the database should be up and running also
