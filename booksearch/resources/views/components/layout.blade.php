@@ -74,15 +74,16 @@
                             <span class="absolute inset-0 rounded-full"></span>
                             <span class="relative inline-flex h-full w-full overflow-hidden rounded-full bg-gray-100">
                                 @if( auth()->user()->profile_image_link )
-                                <img 
-                                    class="h-full w-full object-cover" 
-                                    src="{{ asset(Auth::user()->profile_image_link) }}" 
-                                    alt="Profile"
-                                >
+                                    <img 
+                                        class="h-full w-full object-cover" 
+                                        src="{{ asset(Auth::user()->profile_image_link) }}" 
+                                        alt="Profile"
+                                    >
                                 @else
-                                < class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
-                                </svg>
+                                    <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                                    </svg>
+                                @endif
                             </span>
                         </button>
                         
@@ -169,16 +170,16 @@
 
                         <x-nav.header>ADMIN PAGES</x-nav.header>
 
-                        <x-nav.item href="{{ route("books.create") }}" :active="request()->is('favourite')">
+                        <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
                                 </svg>
                             </x-slot:icon>
                             Create New Book
-                        </x-nav.item>
+                        </x-nav.item> 
 
-                        <x-nav.item href="{{ route("authors.create") }}" :active="request()->is('favourite')">
+                        <x-nav.item href="{{ route('authors.create') }}" :active="request()->routeIs('authors.create')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
@@ -186,6 +187,7 @@
                             </x-slot:icon>
                             Create New Author
                         </x-nav.item>
+                        
 
 
                         <x-nav.header>BOOK MANAGEMENT</x-nav.header>
