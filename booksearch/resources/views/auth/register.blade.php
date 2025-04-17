@@ -1,6 +1,6 @@
 <x-layout>
-    <h2 class="text-2xl font-semibold text-gray-900 text-center my-2">User Registration</h2>
-    <div class="max-w-2xl mx-auto p-8 border border-gray-200 rounded-lg shadow-sm bg-white mt-4">
+    <x-header>Register a new account</x-header>
+    <div class="max-w-xl mx-auto p-8 border border-gray-200 rounded-lg shadow-sm bg-white mt-4">
         <form method="POST" action="/register" class="space-y-6" enctype="multipart/form-data">
         @csrf
           <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

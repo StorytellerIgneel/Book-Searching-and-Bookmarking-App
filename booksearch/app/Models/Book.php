@@ -33,10 +33,4 @@ class Book extends Model
     public function favourites(): HasMany{
         return $this->hasMany(Favourite::class);
     }
-
-    // Calculate the average rating of the book
-    public function averageRating(): ?float {
-        return $this->ratings()->avg('score');
-    }
-
 }

@@ -19,7 +19,7 @@ class SessionController extends Controller
             'password' => ['required'],
         ]);
 
-        if (! Auth::attempt($credentials)) {
+        if (! Auth::attempt($credentials, $request->get('remember_me'))) {
             throw ValidationException::withMessages([
                 'username' => 'Sorry, those credentials do not match.',
             ]);

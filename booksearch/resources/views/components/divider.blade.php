@@ -1,0 +1,1 @@
+<div class="h-px bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 my-4"></div>

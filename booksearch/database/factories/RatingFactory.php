@@ -3,7 +3,6 @@
 namespace Database\Factories;
 use App\Models\User;
 use App\Models\Book;
-use App\Models\Rating;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,8 +21,6 @@ class RatingFactory extends Factory
         return [
             'user_id' => User::factory(),
             'book_id' => Book::factory(),
-            // 'user_id' => rand(2, 50),
-            // 'book_id' => rand(1, 200),
             'score' => rand(1, 5),
         ];
     }

@@ -12,7 +12,7 @@
         type="checkbox"
         name="{{ $name }}"
         id="{{ $id ?? $name }}"
-        @checked($checked)
+        @checked(old($name, $checked))
         {{ $attributes->merge(['class' => $inputClass]) }}
     >
     <label for="{{ $id ?? $name }}" class="{{ $labelClass }}">
