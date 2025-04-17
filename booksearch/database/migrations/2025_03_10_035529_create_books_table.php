@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->text('synopsis');
             $table->unsignedBigInteger('author_id');
-            $table->text('cover_image_link')->nullable(); 
+            $table->text('cover_image_link'); 
             $table->timestamps();
 
             $table->foreign('author_id')

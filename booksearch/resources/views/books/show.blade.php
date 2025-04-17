@@ -7,7 +7,7 @@
             <div class="md:w-1/3">
                 @if($book->cover_image_link)
                     <img src="{{ asset('storage/' . $book->cover_image_link) }}" 
-                         alt="{{ $book->name }} cover" 
+                         alt="{{ $book->title }} cover" 
                          class="w-full rounded-lg shadow-md mb-4">
                 @else
                     <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
@@ -90,7 +90,7 @@
             <!-- Book Details Column -->
             <div class="md:w-2/3">
                 <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $book->name }}</h1>
+                    <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ $book->title }}</h1>
                     
                     <div class="flex items-center text-gray-600 mb-4">
                         <span>By 
@@ -105,8 +105,12 @@
                     </div>
                     
                     <div class="prose max-w-none text-gray-700 mb-6">
-                        <p class="whitespace-pre-line">{{ $book->summary ?? 'No summary available.'}}</p>
+                        <p class="whitespace-pre-line">{{ $book->synopsis ?? 'No synopsis available.'}}</p>
                     </div>
+
+                    <a href="{{ route('books.edit', ['id' => $book->id]) }}">Edit Book</a><br>
+                    <a href="{{ route('books.delete', ['id' => $book->id]) }}">Delete Book</a><br>
+                    <a href="{{ route('books.index') }}">Back to Books</a>
                     
                     <div class="border-t border-gray-100 pt-4">
                         <h3 class="font-medium text-gray-800 mb-2">Details</h3>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Book Search</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen flex flex-col bg-gray-100">

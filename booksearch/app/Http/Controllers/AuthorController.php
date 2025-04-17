@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Models\Author;
 
 class AuthorController extends Controller
 {
@@ -14,10 +13,10 @@ class AuthorController extends Controller
         return view("authorDetails", compact("author"));
     }
 
-    public function index(){
-        $authors = Author::all();
-        return view("authors", compact("authors"));
-    }
+    // public function index(){
+    //     $authors = Author::all();
+    //     return view("authors", compact("authors"));
+    // }
     
     public function showCreateAuthorForm(){
         return view("createAuthorForm");
@@ -73,7 +72,7 @@ class AuthorController extends Controller
         $data->delete();
         return redirect("authors")->with("success_message", "Author deleted successfully");
     }
-    public function index2(){
+    public function index(){
         $authors = Author::query()
             ->with(['books' => function($query) {
                 $query->withAvg('ratings', 'score')

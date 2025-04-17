@@ -16,13 +16,17 @@
                         <h2 class="text-2xl font-bold text-gray-800">{{ $author->name }}</h2>
                     </div>
                 </div>
-                
+            
+
                 {{-- Bio --}}
                 @if($author->bio)
                     <div class="mt-4 pt-4 border-t border-gray-100">
                         <p class="text-gray-700 leading-relaxed">{{ $author->bio }}</p>
                     </div>
                 @endif
+
+                <a href="{{ route('authors.edit', ['id' => $author->id]) }}">Edit Author</a>
+                <a href="{{ route('authors.delete', ['id' => $author->id]) }}">Delete Author</a><br>
                 
                 {{-- Additional Metadata --}}
                 <div class="mt-4 flex flex-wrap gap-2">
