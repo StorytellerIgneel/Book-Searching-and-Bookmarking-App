@@ -111,9 +111,8 @@
                 </div>
                 <nav class="text-sm text-gray-300">
                     <ul class="flex flex-col">
-                        <!-- Your sidebar items here -->
-
-                        <!-- Your Profile Button -->
+                        <!-- sidebar navigations starts from here -->
+                        <!-- Sidebar Button to Your Profile -->
                         <x-nav.item href="/profile" :active="request()->is('profile')" >
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -123,7 +122,7 @@
                             Your Profile
                         </x-nav.item>
 
-                        <!-- Book List Button -->
+                        <!-- Sidebar Button to Book List -->
                         <x-nav.item href="/books" :active="request()->is('books')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -133,7 +132,7 @@
                             Book List
                         </x-nav.item>
 
-                        <!-- Author List Button -->
+                        <!-- Sidebar Button to Author List -->
                         <x-nav.item href="/authors" :active="request()->is('authors')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -143,7 +142,7 @@
                             Author List
                         </x-nav.item>
 
-                        <!-- User Favourite Button -->
+                        <!-- Sidebar Button to Favourite -->
                         <x-nav.item href="/favourites" :active="request()->is('favourite')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -175,13 +174,13 @@
                 </nav>
             </aside>
 
-            <!-- Page Content -->
+            <!-- Page Content starts from here-->
             <main class="flex-1 px-4 md:p-6 lg:p-8 pt-0 overflow-auto mr-64">
                 {{ $slot }}
             </main>
         </div>
         
-        <!-- Footer -->
+        <!-- Footer part-->
         <footer class="bg-gray-900 text-gray-400 text-center py-4 text-sm">
             &copy; {{ date('Y') }} Book Search. All Rights Reserved.
         </footer>
