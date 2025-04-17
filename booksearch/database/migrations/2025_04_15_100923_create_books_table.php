@@ -17,14 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->text('synopsis');
-            $table->unsignedBigInteger('author_id');
+            $table->foreignIdFor(\App\Models\Author::class);
             $table->text('cover_image_link')->nullable(); 
             $table->timestamps();
-
-            $table->foreign('author_id')
-                ->references('id')
-                ->on('authors')
-                ->onDelete('cascade');
+            //$table->year('year_published');
+            //$table->string('cover_image_path')->nullable(); 
         });
     }
 

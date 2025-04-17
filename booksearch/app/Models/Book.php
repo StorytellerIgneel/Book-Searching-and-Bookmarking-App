@@ -13,10 +13,10 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'summary',
+        'title',
+        'synopsis',
         'author_id',
-        'cover_image_path',
+        'cover_image_link',
     ];
 
     // Get the author of the book

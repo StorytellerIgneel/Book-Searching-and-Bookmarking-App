@@ -28,6 +28,42 @@ Route::middleware('guest')->group(function () {
 });
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');  
 
+//not yet implement middleware for auth
+
+//books CRUD
+Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/bookDetails/{id}', [BookController::class, 'showBookDetails'])->name('books.details');
+Route::get("createBook", [BookController::class, 'showCreateBookForm'])->name("books.createForm");
+Route::post("createBook", [BookController::class, 'createBook'])->name("books.create");
+Route::get("/editBook/{id}", [BookController::class, "showEditBookForm"])->name("books.editForm");
+Route::post("/editBook/{id}", [BookController::class, 'editBook'])->name('books.edit');
+Route::get("deleteBook/{id}", [BookController::class, "deleteBook"])->name('books.delete');
+
+
+//author CRUD
+Route::get("/authors", [AuthorController::class, 'index'])->name('authors.index');
+Route::get("/authorDetails/{id}", [AuthorController::class, 'showAuthorDetails'])->name('authors.details');
+Route::get("createAuthor", [AuthorController::class, 'showCreateAuthorForm'])->name("authors.createForm");
+Route::post("createAuthor", [AuthorController::class, 'createAuthor'])->name("authors.create");
+Route::get("/editAuthor/{id}", [AuthorController::class, "showEditAuthorForm"])->name("authors.editForm");
+Route::post("/editAuthor/{id}", [AuthorController::class, 'editAuthor'])->name('authors.edit');
+Route::get("deleteAuthor/{id}", [AuthorController::class, "deleteAuthor"])->name('authors.delete');
+
+//delete user
+// Route::get("delete/{id}", [BookController::class, "deleteBook"]);
+
+//show edituser form, then main func for edit user
+Route::get("editUser/{id}", [BookController::class, "showEditUserForm"]);
+Route::post("editUser/{id}", [BookController::class, "editUser"]);
+
+//delete user
+// Route::get("deleteAuthor/{id}", [AuthorController::class, "deleteAuthor"]);
+// Route::get("deleteBook/{id}", [BookController::class, "deleteBook"]);
+
+//show edituser form, then main func for edit user
+Route::get("editUser/{id}", [BookController::class, "showEditUserForm"]);
+Route::post("editUser/{id}", [BookController::class, "editUser"]);
+
 // Author routes
 Route::controller(AuthorController::class)->group(function () {
     Route::get('/authors', 'index')->name('authors.index');
