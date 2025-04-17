@@ -15,10 +15,10 @@ class BookController extends Controller
         return view("bookDetails", compact("book"));
     }
 
-    public function index(){
-        $books = Book::all();
-        return view("books", compact("books"));
-    }
+    // `public function index(){
+    //     $books = Book::all();
+    //     return view("books", compact("books"));
+    // }`
 
     public function showCreateBookForm(){
         return view("createBookForm");
@@ -65,7 +65,7 @@ class BookController extends Controller
         // $data->save();
 
         $data->update($req->all());
-        $data->image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
         return redirect("books")->with("success_message", "Book updated successfully");
     }
 
@@ -75,7 +75,7 @@ class BookController extends Controller
         return redirect("books")->with("success_message", "Book deleted successfully");
     }
 
-    public function index2(){
+    public function index(){
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
             ->withCount(['ratings', 'favourites'])

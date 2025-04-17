@@ -31,7 +31,7 @@ Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 //not yet implement middleware for auth
 
 //books CRUD
-Route::get('/books', [BookController::class, 'index'])->name('books.index');
+// Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/bookDetails/{id}', [BookController::class, 'showBookDetails'])->name('books.details');
 Route::get("createBook", [BookController::class, 'showCreateBookForm'])->name("books.createForm");
 Route::post("createBook", [BookController::class, 'createBook'])->name("books.create");
