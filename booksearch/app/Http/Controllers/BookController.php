@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    // public function showAuthorDetails($id){
-    //     $author = Book::find($id);
-    //     return view("authorDetails", compact("author"));
-    // }
+    public function showBookDetails($id){
+        $book = Book::find($id);
+        return view("bookDetails", compact("book"));
+    }
 
     public function index(){
-        $authors = Book::all();
-        return view("authors", compact("authors"));
+        $books = Book::all();
+        return view("books", compact("books"));
     }
 
     public function showCreateBookForm(){
@@ -38,11 +38,38 @@ class BookController extends Controller
         Book::create([
             "title" => $request->title,
             "synopsis" => $request->synopsis,
-            "cover_image_path" => $imageUrl, // $imageName
+            "cover_image_link" => "storage/" . $imageUrl, // $imageName
             "author_id" => $request->author_id,
         ]);
 
         return redirect("books")->with("success_message", "Book created successfully");
+    }
+
+    public function showEditBookForm($id){
+        $book = Book::find($id);
+        if (!$book) {
+            return redirect()->route('books.index')->with('error_message', 'Book not found.');
+        }
+        return view("editBookForm", ["book"=>$book]);
+    }
+
+    public function editBook(Request $req){
+        $data = Book::find($req->id);
+        
+        // $data->name = $req->name;
+        // $data->email = $req->email;
+        // $data->password = $req->password;
+        // $data->save();
+
+        $data->update($req->all());
+        $data->image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        return redirect("books")->with("success_message", "Book updated successfully");
+    }
+
+    function deleteBook($id){
+        $data = Book::find($id);
+        $data->delete();
+        return redirect("books")->with("success_message", "Book deleted successfully");
     }
 
 }

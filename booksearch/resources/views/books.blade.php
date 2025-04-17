@@ -6,16 +6,24 @@
     <title>Books</title>
 </head>
 <body>
-    <h1>Books</h1>
-    
-    <ul>
-        @foreach ($books as $book)
-            <li>
-                <h2>{{ $book->name }}</h2>
-                <!-- Assuming the image is stored in a public folder or storage link -->
-                <img src="{{ asset('storage/' . $book->image) }}" alt="Image of {{ $book->name }}" width="200">
-            </li>
-        @endforeach
-    </ul>
+    @if($books->isEmpty())
+        <h1>No books found</h1>
+        
+    @else
+        <h1>Books</h1>
+        
+        <ul>
+            @foreach ($books as $book)
+                <li>
+                    <h2>{{ $book->title }}</h2>
+                    <h3> {{ $book->synopsis }}</h3>
+                    <!-- Assuming the image is stored in a public folder or storage link -->
+                    <img src="{{ $book->cover_image_link  }}" alt="Image of {{ $book->title }}" width="200">
+                    <a href="{{  route('books.details', ['id' => $book->id]) }}">View Details</a>
+                    <a href="{{ route('books.delete', ['id' => $book->id]) }}">Delete Book</a>
+                </li>
+            @endforeach
+        </ul>
+    @endif
 </body>
 </html>
