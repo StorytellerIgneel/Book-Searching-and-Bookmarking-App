@@ -61,9 +61,8 @@ class BookController extends Controller
         ])->cookie('recently_browsed', json_encode($updatedIds), 60 * 24 * 30);
     }
 
-
     public function create(){
-        return view("books.create");
+        return view('books.create');
     }
     
     public function store(Request $request){
