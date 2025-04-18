@@ -208,29 +208,29 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
-        const pageWrapper = document.querySelector('main');
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const pageWrapper = document.querySelector('main');
 
-        sidebarToggle.addEventListener('click', function() {
-            if (sidebar.classList.contains('invisible')) {
-                sidebar.classList.remove('invisible');
-                setTimeout(() => {
-                    sidebar.classList.remove('-translate-x-full', 'opacity-0');
-                    sidebar.classList.add('opacity-100');
-                }, 10);
-                pageWrapper.classList.remove('mr-64');
-            } else {
-                sidebar.classList.remove('opacity-100');
-                sidebar.classList.add('opacity-0');
-                setTimeout(() => {
-                    sidebar.classList.add('-translate-x-full', 'invisible');
-                }, 300); 
-                pageWrapper.classList.add('mr-64');
-            }
+            sidebarToggle.addEventListener('click', function() {
+                if (sidebar.classList.contains('invisible')) {
+                    sidebar.classList.remove('invisible');
+                    setTimeout(() => {
+                        sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                        sidebar.classList.add('opacity-100');
+                    }, 10);
+                    pageWrapper.classList.remove('mr-64');
+                } else {
+                    sidebar.classList.remove('opacity-100');
+                    sidebar.classList.add('opacity-0');
+                    setTimeout(() => {
+                        sidebar.classList.add('-translate-x-full', 'invisible');
+                    }, 300); 
+                    pageWrapper.classList.add('mr-64');
+                }
+            });
         });
-    });
     </script>
 </body>
 </html>

@@ -11,8 +11,9 @@
                 <ul class="space-y-4">
                     @foreach($favourites as $favourite)
                         <li class="p-4 bg-white shadow rounded">
-                            <h2 class="text-xl font-semibold">{{ $favourite->book->title }}</h2>
-                            <p class="text-gray-600">{{ $favourite->book->author ?? 'Unknown Author' }}</p>
+                            <p class="text-gray-600">Book ID: {{ $favourite->book->id }}</p>
+                            <p class="text-gray-600">Title: {{ $favourite->book->name ?? 'Unknown Title' }}</p>
+                            <p class="text-gray-600">Summary: {{ $favourite->book->summary ?? 'Undefined' }}</p>
                         </li>
                     @endforeach
                 </ul>

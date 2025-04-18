@@ -11,11 +11,20 @@ class FavouriteController extends Controller
     public function index(Request $request)
     {
         $favourites = Favourite::where('user_id', $request->user()->id)
-            ->with('book.author')
+            ->with('book.favourites')
             ->get();
 
         return view('favourites', ['favourites' => $favourites]);
     }
+
+    // public function index(Request $request)
+    // {
+    //     $favourites = Favourite::where('user_id', $request->user()->id)
+    //         ->with('book.author')
+    //         ->get();
+
+    //     return view('favourites', ['favourites' => $favourites]);
+    // }
 
     public function store(Request $request)
     {
