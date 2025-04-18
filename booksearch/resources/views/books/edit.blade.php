@@ -1,4 +1,4 @@
-<x-layout>
+
 <x-header>Edit Book</x-header>
     <form action="/books/{{ $book->id }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -17,4 +17,3 @@
         <span style="color: red">@error('cover'){{ $message }}@enderror</span><br>
         <button type = "submit">Edit</button>
     </form>
-</x-layout>

@@ -108,7 +108,7 @@
                         <p class="whitespace-pre-line">{{ $book->synopsis ?? 'No synopsis available.'}}</p>
                     </div>
 
-                    <a href="{{ route('books.edit', ['id' => $book->id]) }}">Edit Book</a><br>
+                    <a href="{{ route('books.edit', $book) }}">Edit Book</a><br>
                     <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
