@@ -21,7 +21,7 @@
         <!-- Header with title and rating -->
         <div class="flex justify-between items-start mb-3">
             <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
-                {{ $book->name }}
+                {{ $book->title }}
             </h3>
             <x-rating :$book />
         </div>
@@ -36,7 +36,7 @@
 
         <!-- Summary -->
         <p class="text-sm text-gray-700 line-clamp-3">
-            {{ $book->summary ?? "No summary available" }}
+            {{ $book->synopsis ?? "No summary available" }}
         </p>
     </div>
 
