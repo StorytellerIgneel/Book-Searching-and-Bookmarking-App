@@ -21,6 +21,7 @@
             }
 
             .favourite-item:hover {
+                background-color: #81e0ff;
                 transform: translateY(-5px);
                 box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
             }
@@ -40,8 +41,8 @@
                         <div class="favourite-item" onclick="window.location.href='{{ url('/books/' . $favourite->book->id) }}'">
 
                             <!-- Uncomment the line below to use the actual book cover image -->
-                            <!-- <img src="{{ $favourite->book->cover_image_link ?? 'https://via.placeholder.com/150' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;"> -->
-                            <img src="{{ 'https://randomwordgenerator.com/img/picture-generator/50e5d6474e5bb10ff3d8992cc12c30771037dbf85254784d712f7dd59245_640.jpg' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;">
+                            <img src="{{ $favourite->book->cover_image_link ?? 'https://via.placeholder.com/150' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;">
+                            <!-- <img src="{{ 'https://randomwordgenerator.com/img/picture-generator/50e5d6474e5bb10ff3d8992cc12c30771037dbf85254784d712f7dd59245_640.jpg' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;"> -->
                             
                             <p>{{ $favourite->book->title ?? 'Unknown Title' }}</p>
                             <p>Rating: 

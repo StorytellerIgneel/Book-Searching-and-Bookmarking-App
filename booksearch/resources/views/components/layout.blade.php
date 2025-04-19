@@ -168,25 +168,29 @@
                             User List
                         </x-nav.item>
 
-                        <x-nav.header>ADMIN PAGES</x-nav.header>
+                        @auth
+                            @if(auth()->user()->is_admin)
+                                <x-nav.header>ADMIN PAGES</x-nav.header>
 
-                        <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
-                            <x-slot:icon>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
-                                </svg>
-                            </x-slot:icon>
-                            Create New Book
-                        </x-nav.item> 
+                                <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
+                                    <x-slot:icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
+                                        </svg>
+                                    </x-slot:icon>
+                                    Create New Book
+                                </x-nav.item> 
 
-                        <x-nav.item href="{{ route('authors.create') }}" :active="request()->routeIs('authors.create')">
-                            <x-slot:icon>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
-                                </svg>
-                            </x-slot:icon>
-                            Create New Author
-                        </x-nav.item>
+                                <x-nav.item href="{{ route('authors.create') }}" :active="request()->routeIs('authors.create')">
+                                    <x-slot:icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
+                                        </svg>
+                                    </x-slot:icon>
+                                    Create New Author
+                                </x-nav.item>
+                            @endif
+                        @endauth
                     </ul>
                 </nav>
             </aside>
