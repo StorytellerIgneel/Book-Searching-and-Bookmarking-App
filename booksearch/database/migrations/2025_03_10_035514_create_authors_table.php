@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('name');
             $table->text('bio');
             $table->string("image_link");
+
+            $table->engine = 'InnoDB';
         });
     }
 
