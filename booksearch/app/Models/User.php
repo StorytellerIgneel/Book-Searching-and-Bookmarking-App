@@ -58,4 +58,11 @@ class User extends Authenticatable
     public function favourites(){
         return $this->hasMany(Favourite::class);
     }
+
+    // Get all books written by the user
+    public function isAdmin()
+    {
+        return $this->is_admin == 1;
+    }
+
 }
