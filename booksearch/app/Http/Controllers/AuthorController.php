@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class AuthorController extends Controller
 {
+    use AuthorizesRequests;
     public function index(){
         $authors = Author::query()
             ->with(['books' => function($query) {
@@ -38,6 +40,7 @@ class AuthorController extends Controller
     }
     
     public function create(){
+        $this->authorize('create', Author::class); 
         return view("authors.create");
     }
     
@@ -65,6 +68,7 @@ class AuthorController extends Controller
     }
 
     public function edit(Author $author){
+        $this->authorize('update', $author);
         if (!$author) {
             return redirect()->route('authors.index')->with('error_message', 'Author not found.');
         }
@@ -84,6 +88,7 @@ class AuthorController extends Controller
     }
 
     public function destroy(Author $author){
+        $this->authorize('delete', $author);
         $author->delete();
         return redirect("authors")->with("success_message", "Author deleted successfully");
     }
