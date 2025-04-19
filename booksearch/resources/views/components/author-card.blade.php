@@ -39,7 +39,7 @@
                 @foreach ($author->books->sortByDesc('ratings_avg_score')->take(3) as $book)
                     <li class="flex items-center justify-between">
                         <a href="{{ route('books.show' , $book->id) }}" class="text-sm font-medium text-gray-700 truncate pr-2 hover:text-blue-600 transition-colors flex-grow">
-                            {{ $book->name }}
+                            {{ $book->title }}
                         </a>
                         <x-rating :$book />
                     </li>

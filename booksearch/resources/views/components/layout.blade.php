@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Book Search</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
 </head>
@@ -186,11 +187,6 @@
                             </x-slot:icon>
                             Create New Author
                         </x-nav.item>
-                        
-
-
-                        <x-nav.header>BOOK MANAGEMENT</x-nav.header>
-
                     </ul>
                 </nav>
             </aside>
@@ -207,6 +203,52 @@
         </footer>
     </div>
 
+    <!-- Modal message based on flash session -->
+    <div x-data="{ showModal: false, message: '', isError: false }"
+        x-init="
+            @if(session('success_message'))
+                showModal = true;
+                message = '{{ session('success_message') }}';
+                isError = false;
+            @elseif (session('error_message'))
+                showModal = true;
+                message = '{{ session('error_message') }}';
+                isError = true;
+            @endif
+        "
+        x-show="showModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style="background-color: rgba(0,0,0,0.5)">
+        
+        <div class="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div class="p-6">
+                <!-- Icon -->
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full"
+                    :class="isError ? 'bg-red-100' : 'bg-green-100'">
+                    <svg :class="isError ? 'text-red-600' : 'text-green-600'" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            :d="isError ? 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' : 'M5 13l4 4L19 7'" />
+                    </svg>
+                </div>
+                
+                <!-- Message -->
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg font-medium text-gray-900" x-text="message"></h3>
+                </div>
+            </div>
+            
+            <!-- Button -->
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 rounded-xl">
+                <button @click="showModal = false" type="button"
+                        class="inline-flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                        :class="isError ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for Sidebar Toggle -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const sidebarToggle = document.getElementById('sidebarToggle');

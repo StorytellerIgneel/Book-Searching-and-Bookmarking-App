@@ -140,8 +140,6 @@
             </div>
         </section>   
     
-    <!-- Add Alpine.js script -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script>
         document.addEventListener('alpine:init', () => {
             Alpine.data('carousel', (containerId) => ({
