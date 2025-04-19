@@ -1,5 +1,7 @@
 <?php
 
+
+
 return [
 
     /*
@@ -123,4 +125,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'provides' => [
+        Illuminate\Auth\AuthServiceProvider::class,
+        App\Providers\AuthServiceProvider::class,
+    ],
 ];
