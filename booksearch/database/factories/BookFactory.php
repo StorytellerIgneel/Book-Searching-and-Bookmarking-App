@@ -20,7 +20,7 @@ class BookFactory extends Factory
     {
         return [
             'author_id' => rand(1,100), //Create 100 authors first
-            'title' => fake()->unique()->sentence(3),
+            'title' => rtrim(fake()->unique()->realText(30), '.'),
             'synopsis' => fake()->paragraph(),
             'cover_image_link' => fake()->imageUrl()
         ];
