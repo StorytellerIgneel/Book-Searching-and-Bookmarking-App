@@ -12,25 +12,32 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisteredUserController extends Controller
 {
-    public function create(){
+    public function create()
+    {
         return view('auth.register');
     }
 
     // Store user info
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $validated = $request->validate([
-            'username' => ['required', 'string', 'max:30', 'unique:users',],
+            'username' => ['required', 'string', 'max:30', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:100', 'unique:users',],
-            'password' => ['required', 'confirmed', 
+            'password' => [
+                'required',
+                'confirmed',
                 Password::min(8)->max(30)->mixedCase()->numbers()->symbols()->uncompromised(),
             ],
-            'profile_picture' => ['nullable', 
+            'profile_picture' => [
+                'nullable',
                 File::image()->min('1kb')->max('10mb'),
                 Rule::dimensions()->maxHeight(1000)->maxWidth(1000),
             ],
-            'date_of_birth' => ['required', 'date', 
+            'date_of_birth' => [
+                'required',
+                'date',
                 Rule::date()->format('Y-m-d')->beforeOrEqual(
-                    today()//->subYear(18) 
+                    today() //->subYear(18) 
                 ),
             ],
             'phone' => ['nullable', 'string', 'regex:/^01[0-46-9]-?[0-9]{7,8}$/'],
@@ -48,6 +55,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect('/');
+        return redirect('/')->with('success_message', 'Profile created successfully.');
     }
 }

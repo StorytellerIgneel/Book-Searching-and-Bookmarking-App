@@ -12,7 +12,7 @@
             @endif
 
             <div>
-                <p class="text-gray-600">Name: {{ $user->username }}</p>
+                <p class="text-gray-600">Username: {{ $user->username }}</p>
                 <p class="text-gray-600">Email: {{ $user->email }}</p>
             </div>
         </div>

@@ -69,7 +69,7 @@
                     <x-forms.error name="profile_picture" />
                 </div>
                 <!-- Name field -->
-                <x-forms.input name="username" label="Name" placeholder="Your username"
+                <x-forms.input name="username" label="Username" placeholder="Your username"
                     value="{{ old('username', $user->username) }}" maxlength="30" />
                 <!-- Email field -->
                 <x-forms.input type="email" name="email" label="Email" placeholder="Your email"
@@ -78,7 +78,17 @@
                 <x-forms.input name="phone" label="Phone Number" placeholder="Your phone number"
                     value="{{ old('phone', $user->phone) }}" maxlength="15" :required="false" />
             </div>
-            <x-forms.submit-button>Update profile</x-forms.submit-button>
+            <div class="flex items-center space-x-4">
+                <button 
+                    type="button" 
+                    onclick="window.location.href='/profile'" 
+                    class="inline-flex px-4 py-3 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Cancel
+                </button>
+
+                <x-forms.submit-button>Update profile</x-forms.submit-button>
+            </div>
         </form>
     </div>
 </x-layout>

@@ -27,7 +27,7 @@ class RatingController extends Controller
             ['score' => $validated['score']]
         );
 
-        return back()->with('success', 'Rating saved successfully!');
+        return back()->with('success_message', 'Rating saved successfully!');
     }
 
     public function destroy(Request $request){
@@ -40,6 +40,6 @@ class RatingController extends Controller
             'book_id' => $validated['book_id']
         ])->delete();
 
-        return back()->with('success', 'Rating removed successfully!');
+        return back()->with('success_message', 'Rating removed successfully!');
     }
 }
