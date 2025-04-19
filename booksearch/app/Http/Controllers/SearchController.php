@@ -37,7 +37,7 @@ class SearchController extends Controller
             ->withCount('ratings')
             ->withAvg('ratings', 'score')
             ->withCount('favourites')
-            ->where('name', 'LIKE', '%'.$query.'%')
+            ->where('title', 'LIKE', '%'.$query.'%')
             ->paginate($request->input('per_page', 12), ['*'], 'bookPage');
 
         $authors = Author::query()

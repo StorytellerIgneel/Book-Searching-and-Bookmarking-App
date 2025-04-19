@@ -29,7 +29,7 @@ class BookController extends Controller
             "title" => "required | max: 191",
             "synopsis" => "required",
             "cover"=>"required",
-            "author_id" => "required"
+            "author_id" => "required|integer|　exists:authors,id"
         ]);
 
         //store image link
