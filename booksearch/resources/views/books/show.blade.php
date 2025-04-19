@@ -5,8 +5,8 @@
         <div class="flex flex-col md:flex-row gap-8">
             <!-- Book Cover Column -->
             <div class="md:w-1/3">
-                @if($book->cover_image_link)
-                    <img src="{{ asset('storage/' . $book->cover_image_link) }}" 
+                @if($book->cover_image_link && file_exists(public_path($book->cover_image_link)))
+                    <img src="{{ asset($book->cover_image_link) }}" 
                          alt="{{ $book->title }} cover" 
                          class="w-full rounded-lg shadow-md mb-4">
                 @else
