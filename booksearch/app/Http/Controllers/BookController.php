@@ -14,7 +14,7 @@ class BookController extends Controller
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
             ->withCount(['ratings', 'favourites'])
-        ->withAvg('ratings', 'score')
+            ->withAvg('ratings', 'score')
             ->paginate(24);
 
         return view('books.index', [
