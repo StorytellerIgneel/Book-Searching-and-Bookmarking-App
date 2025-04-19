@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Rating;
 use App\Models\Favourite;
 use Illuminate\Support\Facades\Auth;
+use App\Policies\BookPolicy;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class BookController extends Controller
 {
+    use AuthorizesRequests;
     public function index(){
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
@@ -62,10 +65,14 @@ class BookController extends Controller
     }
 
     public function create(){
+        $this->authorize('create', Book::class);
         return view('books.create');
     }
     
     public function store(Request $request){
+
+        $this->authorize('create', Book::class);
+
         $request->validate([
             "title" => "required | max: 191",
             "synopsis" => "required",
@@ -90,6 +97,9 @@ class BookController extends Controller
     }
 
     public function edit(Book $book){
+        
+        $this->authorize('update', $book);
+
         if (!$book) {
             return redirect()->route('books.index')->with('error_message', 'Book not found.');
         }
@@ -102,12 +112,15 @@ class BookController extends Controller
         // $data->password = $req->password;
         // $data->save();
 
+        $this->authorize('update', $book);
+
         $book->update($req->all());
         $book->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
         return redirect("books")->with("success_message", "Book updated successfully");
     }
 
     public function destroy(Book $book){
+        $this->authorize('delete', $book);
         $book->delete();
         return redirect("books")->with("success_message", "Book deleted successfully");
     }
