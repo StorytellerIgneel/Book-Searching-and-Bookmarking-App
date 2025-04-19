@@ -5,8 +5,8 @@
         <div class="flex flex-col md:flex-row gap-8">
             <!-- Book Cover Column -->
             <div class="md:w-1/3">
-                @if($book->cover_image_link)
-                    <img src="{{ asset('storage/' . $book->cover_image_link) }}" 
+                @if($book->cover_image_link && file_exists(public_path($book->cover_image_link)))
+                    <img src="{{ asset($book->cover_image_link) }}" 
                          alt="{{ $book->title }} cover" 
                          class="w-full rounded-lg shadow-md mb-4">
                 @else
@@ -108,31 +108,14 @@
                         <p class="whitespace-pre-line">{{ $book->synopsis ?? 'No synopsis available.'}}</p>
                     </div>
 
-                    <a href="{{ route('books.edit', ['id' => $book->id]) }}">Edit Book</a><br>
-                    <a href="{{ route('books.delete', ['id' => $book->id]) }}">Delete Book</a><br>
+                    <a href="{{ route('books.edit', $book) }}">Edit Book</a><br>
+                    <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit">Delete Book</button>
+                    </form><br>
                     <a href="{{ route('books.index') }}">Back to Books</a>
-                    
-                    <div class="border-t border-gray-100 pt-4">
-                        <h3 class="font-medium text-gray-800 mb-2">Details</h3>
-                        <div class="grid grid-cols-2 gap-4 text-sm text-gray-600">
-                            <div>
-                                <span class="font-medium">Published:</span>
-                                <span>{{ $book->published_date?->format('Y') ?? 'Unknown' }}</span>
-                            </div>
-                            <div>
-                                <span class="font-medium">Pages:</span>
-                                <span>{{ $book->pages ?? 'Unknown' }}</span>
-                            </div>
-                            <div>
-                                <span class="font-medium">Genre:</span>
-                                <span>{{ $book->genre ?? 'Unknown' }}</span>
-                            </div>
-                            <div>
-                                <span class="font-medium">ISBN:</span>
-                                <span>{{ $book->isbn ?? 'Unknown' }}</span>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 
                 <!-- Similar Books Section -->

@@ -1,9 +1,9 @@
 <a href="{{ route('books.show', $book->id) }}" class="block bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 transform hover:scale-[1.02] group flex flex-col h-full">
     <!-- Cover Image Section -->
-    @if($book->cover_image_link)
+    @if($book->cover_image_link && file_exists(public_path($book->cover_image_link)))
         <div class="h-36 overflow-hidden">
             <img 
-                src="{{ asset('storage/' . $book->cover_image_link) }}" 
+                src="{{ asset($book->cover_image_link) }}" 
                 alt="{{ $book->name }} cover" 
                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                 loading="lazy"
@@ -21,7 +21,7 @@
         <!-- Header with title and rating -->
         <div class="flex justify-between items-start mb-3">
             <h3 class="text-lg font-bold text-gray-800 group-hover:text-blue-600 transition-colors line-clamp-2">
-                {{ $book->name }}
+                {{ $book->title }}
             </h3>
             <x-rating :$book />
         </div>
@@ -36,7 +36,7 @@
 
         <!-- Summary -->
         <p class="text-sm text-gray-700 line-clamp-3">
-            {{ $book->summary ?? "No summary available" }}
+            {{ $book->synopsis ?? "No summary available" }}
         </p>
     </div>
 

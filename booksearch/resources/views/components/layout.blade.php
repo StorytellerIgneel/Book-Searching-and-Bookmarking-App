@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Book Search</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
 </head>
@@ -73,7 +74,7 @@
                         >
                             <span class="absolute inset-0 rounded-full"></span>
                             <span class="relative inline-flex h-full w-full overflow-hidden rounded-full bg-gray-100">
-                                @if( auth()->user()->profile_image_link )
+                                @if( auth()->user()->profile_image_link && file_exists(public_path(auth()->user()->profile_image_link)))
                                     <img 
                                         class="h-full w-full object-cover" 
                                         src="{{ asset(Auth::user()->profile_image_link) }}" 
@@ -90,7 +91,6 @@
                         <!-- Dropdown menu -->
                         <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black/5 focus:outline-none opacity-0 invisible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200 transform group-focus-within:translate-y-0 translate-y-1" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                             <a href="{{ route('profile.show') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
                             <form method="POST" action="/logout" class="w-full">
                                 @csrf
                                 <button type="submit" class="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1" id="user-menu-item-2">
@@ -112,9 +112,8 @@
                 </div>
                 <nav class="text-sm text-gray-300">
                     <ul class="flex flex-col">
-                        <!-- Your sidebar items here -->
-
-                        <!-- Your Profile Button -->
+                        <!-- sidebar navigations starts from here -->
+                        <!-- Sidebar Button to Your Profile -->
                         <x-nav.item href="/profile" :active="request()->is('profile')" >
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -124,7 +123,7 @@
                             Your Profile
                         </x-nav.item>
 
-                        <!-- Book List Button -->
+                        <!-- Sidebar Button to Book List -->
                         <x-nav.item href="/books" :active="request()->is('books')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -134,7 +133,7 @@
                             Book List
                         </x-nav.item>
 
-                        <!-- Author List Button -->
+                        <!-- Sidebar Button to Author List -->
                         <x-nav.item href="/authors" :active="request()->is('authors')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -144,7 +143,7 @@
                             Author List
                         </x-nav.item>
 
-                        <!-- User Favourite Button -->
+                        <!-- Sidebar Button to Favourite -->
                         <x-nav.item href="/favourites" :active="request()->is('favourite')">
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
@@ -168,70 +167,115 @@
                             User List
                         </x-nav.item>
 
-                        <x-nav.header>ADMIN PAGES</x-nav.header>
+                        @auth
+                            @if(auth()->user()->is_admin)
+                                <x-nav.header>ADMIN PAGES</x-nav.header>
 
-                        <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
-                            <x-slot:icon>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
-                                </svg>
-                            </x-slot:icon>
-                            Create New Book
-                        </x-nav.item> 
+                                <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
+                                    <x-slot:icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
+                                        </svg>
+                                    </x-slot:icon>
+                                    Create New Book
+                                </x-nav.item> 
 
-                        <x-nav.item href="{{ route('authors.create') }}" :active="request()->routeIs('authors.create')">
-                            <x-slot:icon>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
-                                </svg>
-                            </x-slot:icon>
-                            Create New Author
-                        </x-nav.item>
-                        
-
-
-                        <x-nav.header>BOOK MANAGEMENT</x-nav.header>
-
+                                <x-nav.item href="{{ route('authors.create') }}" :active="request()->routeIs('authors.create')">
+                                    <x-slot:icon>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 mr-3">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 7.5a5.25 5.25 0 00-9-3.75 5.25 5.25 0 00-9 3.75c0 5.25 9 11.25 9 11.25s9-6 9-11.25z" />
+                                        </svg>
+                                    </x-slot:icon>
+                                    Create New Author
+                                </x-nav.item>
+                            @endif
+                        @endauth
                     </ul>
                 </nav>
             </aside>
 
-            <!-- Page Content -->
+            <!-- Page Content starts from here-->
             <main class="flex-1 px-4 md:p-6 lg:p-8 pt-0 overflow-auto mr-64">
                 {{ $slot }}
             </main>
         </div>
         
-        <!-- Footer -->
+        <!-- Footer part-->
         <footer class="bg-gray-900 text-gray-400 text-center py-4 text-sm">
             &copy; {{ date('Y') }} Book Search. All Rights Reserved.
         </footer>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const sidebar = document.getElementById('sidebar');
-        const pageWrapper = document.querySelector('main');
+    <!-- Modal message based on flash session -->
+    <div x-data="{ showModal: false, message: '', isError: false }"
+        x-init="
+            @if(session('success_message'))
+                showModal = true;
+                message = '{{ session('success_message') }}';
+                isError = false;
+            @elseif (session('error_message'))
+                showModal = true;
+                message = '{{ session('error_message') }}';
+                isError = true;
+            @endif
+        "
+        x-show="showModal"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4"
+        style="background-color: rgba(0,0,0,0.5)">
+        
+        <div class="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div class="p-6">
+                <!-- Icon -->
+                <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full"
+                    :class="isError ? 'bg-red-100' : 'bg-green-100'">
+                    <svg :class="isError ? 'text-red-600' : 'text-green-600'" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                            :d="isError ? 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' : 'M5 13l4 4L19 7'" />
+                    </svg>
+                </div>
+                
+                <!-- Message -->
+                <div class="mt-3 text-center">
+                    <h3 class="text-lg font-medium text-gray-900" x-text="message"></h3>
+                </div>
+            </div>
+            
+            <!-- Button -->
+            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 rounded-xl">
+                <button @click="showModal = false" type="button"
+                        class="inline-flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-base font-medium text-white shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 sm:ml-3 sm:w-auto sm:text-sm"
+                        :class="isError ? 'bg-red-600 hover:bg-red-700 focus:ring-red-500' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500'">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
 
-        sidebarToggle.addEventListener('click', function() {
-            if (sidebar.classList.contains('invisible')) {
-                sidebar.classList.remove('invisible');
-                setTimeout(() => {
-                    sidebar.classList.remove('-translate-x-full', 'opacity-0');
-                    sidebar.classList.add('opacity-100');
-                }, 10);
-                pageWrapper.classList.remove('mr-64');
-            } else {
-                sidebar.classList.remove('opacity-100');
-                sidebar.classList.add('opacity-0');
-                setTimeout(() => {
-                    sidebar.classList.add('-translate-x-full', 'invisible');
-                }, 300); 
-                pageWrapper.classList.add('mr-64');
-            }
+    <!-- JavaScript for Sidebar Toggle -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const pageWrapper = document.querySelector('main');
+
+            sidebarToggle.addEventListener('click', function() {
+                if (sidebar.classList.contains('invisible')) {
+                    sidebar.classList.remove('invisible');
+                    setTimeout(() => {
+                        sidebar.classList.remove('-translate-x-full', 'opacity-0');
+                        sidebar.classList.add('opacity-100');
+                    }, 10);
+                    pageWrapper.classList.remove('mr-64');
+                } else {
+                    sidebar.classList.remove('opacity-100');
+                    sidebar.classList.add('opacity-0');
+                    setTimeout(() => {
+                        sidebar.classList.add('-translate-x-full', 'invisible');
+                    }, 300); 
+                    pageWrapper.classList.add('mr-64');
+                }
+            });
         });
-    });
     </script>
 </body>
 </html>

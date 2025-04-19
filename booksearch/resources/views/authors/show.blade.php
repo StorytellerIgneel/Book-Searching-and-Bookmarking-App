@@ -7,8 +7,19 @@
             <div class="p-6">
                 <div class="flex items-center space-x-4">
                     {{-- Author Avatar/Initial --}}
-                    <div class="flex-shrink-0 bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-semibold">
-                        {{ strtoupper(substr($author->name, 0, 1)) }}
+                    <div class="flex-shrink-0">
+                        @if($author->image_link && file_exists(public_path($author->image_link)))
+                            <img 
+                                src="{{ asset($author->image_link) }}" 
+                                alt="{{ $author->name }}" 
+                                class="w-12 h-12 rounded-full"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                            >
+                        @else
+                            <div class="bg-blue-500 text-white rounded-full w-12 h-12 flex items-center justify-center text-xl font-semibold" {{ isset($author->image_link) && file_exists(public_path($author->image_link)) ? 'style="display: none;"' : '' }}>
+                                {{ strtoupper(substr($author->name, 0, 1)) }}
+                            </div>
+                        @endif
                     </div>
                     
                     {{-- Author Details --}}
@@ -25,8 +36,12 @@
                     </div>
                 @endif
 
-                <a href="{{ route('authors.edit', ['id' => $author->id]) }}">Edit Author</a>
-                <a href="{{ route('authors.delete', ['id' => $author->id]) }}">Delete Author</a><br>
+                <a href="{{ route('authors.edit', $author->id) }}">Edit Author</a>
+                <form action="{{ route('authors.destroy', $author) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Delete Author</button>
+                </form><br>
                 
                 {{-- Additional Metadata --}}
                 <div class="mt-4 flex flex-wrap gap-2">

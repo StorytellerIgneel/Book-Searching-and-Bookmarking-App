@@ -1,6 +1,7 @@
 <h1>Edit Author</h1>
-<form action = "editAuthor" method="post" enctype="multipart/form-data">
+<form action="{{ route('authors.update', $author ) }}" method="post" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
     <input type = "hidden" name="id" value="{{ $author->id }}"><br><br>
     <input type = "text" name="name" value="{{ $author->name }}"><br><br>
     <span style="color: red">@error('name'){{ $message }}@enderror</span><br><br>

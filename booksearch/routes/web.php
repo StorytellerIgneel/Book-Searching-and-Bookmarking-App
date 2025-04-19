@@ -11,7 +11,6 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// Public Routes
 // Home Page
 Route::get('/', HomeController::class)->name('home');
 
@@ -30,57 +29,32 @@ Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
 
 //not yet implement middleware for auth
 
-//books CRUD
-// Route::get('/books', [BookController::class, 'index'])->name('books.index');
-Route::get('/bookDetails/{id}', [BookController::class, 'showBookDetails'])->name('books.details');
-Route::get("createBook", [BookController::class, 'showCreateBookForm'])->name("books.createForm");
-Route::post("createBook", [BookController::class, 'createBook'])->name("books.create");
-Route::get("/editBook/{id}", [BookController::class, "showEditBookForm"])->name("books.editForm");
-Route::post("/editBook/{id}", [BookController::class, 'editBook'])->name('books.edit');
-Route::get("deleteBook/{id}", [BookController::class, "deleteBook"])->name('books.delete');
+// Book routes
+Route::controller(BookController::class)->group(function () {
+    // GET
+    Route::get('/books', 'index')->name('books.index'); 
+    Route::get('/books/create', 'create')->name('books.create');
+    Route::get('/books/{book}', 'show')->name('books.show');
+    Route::get('/books/{book}/edit', 'edit')->name('books.edit');
 
-
-//author CRUD
-Route::get("/authors", [AuthorController::class, 'index'])->name('authors.index');
-Route::get("/authorDetails/{id}", [AuthorController::class, 'showAuthorDetails'])->name('authors.details');
-Route::get("createAuthor", [AuthorController::class, 'showCreateAuthorForm'])->name("authors.createForm");
-Route::post("createAuthor", [AuthorController::class, 'createAuthor'])->name("authors.create");
-Route::get("/editAuthor/{id}", [AuthorController::class, "showEditAuthorForm"])->name("authors.editForm");
-Route::post("/editAuthor/{id}", [AuthorController::class, 'editAuthor'])->name('authors.edit');
-Route::get("deleteAuthor/{id}", [AuthorController::class, "deleteAuthor"])->name('authors.delete');
-
-//delete user
-// Route::get("delete/{id}", [BookController::class, "deleteBook"]);
-
-//show edituser form, then main func for edit user
-Route::get("editUser/{id}", [BookController::class, "showEditUserForm"]);
-Route::post("editUser/{id}", [BookController::class, "editUser"]);
-
-//delete user
-// Route::get("deleteAuthor/{id}", [AuthorController::class, "deleteAuthor"]);
-// Route::get("deleteBook/{id}", [BookController::class, "deleteBook"]);
-
-//show edituser form, then main func for edit user
-Route::get("editUser/{id}", [BookController::class, "showEditUserForm"]);
-Route::post("editUser/{id}", [BookController::class, "editUser"]);
+    // WRITE 
+    Route::post('/books', 'store')->name('books.store'); 
+    Route::put("/books/{book}", 'update')->name('books.update');
+    Route::delete("/books/{book}", "destroy")->name('books.destroy');
+});
 
 // Author routes
 Route::controller(AuthorController::class)->group(function () {
+    // GET
     Route::get('/authors', 'index')->name('authors.index');
+    Route::get('/authors/create', 'create')->name('authors.create');
     Route::get('/authors/{author}', 'show')->name('authors.show');
+    Route::get("/authors/{author}/edit", "edit")->name("authors.edit");
 
-    // Route::get('/authors/create', 'create')->name('authors.create');
-    // Route::post('/authors', 'store')->name('authors.store');
-});
-
-
-// Book routes
-Route::controller(BookController::class)->group(function () {
-    Route::get('/books', 'index')->name('books.index');
-    Route::get('/books/{book}', 'show')->name('books.show');
-
-    // Route::get('/books/create', 'create')->name('books.create');
-    // Route::post('/books', 'store')->name('books.store'); 
+    // WRITE
+    Route::post('/authors', 'store')->name('authors.store');
+    Route::put("/authors/{author}", 'update')->name('authors.update');
+    Route::delete("/authors/{author}", "destroy")->name('authors.destroy');
 });
 
 // Authenticated user routes

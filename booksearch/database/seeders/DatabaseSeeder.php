@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         foreach (range(1, 500) as $_) {
             Book::factory()
                 ->hasRatings(rand(1, 5))
-                ->hasFavourites(rand(1, 20))
+                ->hasFavourites(rand(1, 10))
                 ->create();
         }
 

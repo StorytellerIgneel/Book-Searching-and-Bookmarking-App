@@ -3,15 +3,16 @@
 
     <div class="max-w-2xl mx-auto mt-6 bg-white rounded-lg shadow-md p-6">
         <div class="flex items-center space-x-6 mb-6">
-            @if($user->profile_image_link)
+            @if($user->profile_image_link && file_exists(public_path($user->profile_image_link)))
                 <img src="{{ asset($user->profile_image_link) }}" alt="Profile picture" class="w-24 h-24 rounded-full object-cover">
             @else
-                <div class="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
-                    <span class="text-2xl text-gray-500">{{ substr($user->name, 0, 1) }}</span>
-                </div>
+                <svg class="w-24 h-24 text-gray-300 rounded-full bg-gray-100" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
             @endif
+
             <div>
-                <p class="text-gray-600">Name: {{ $user->username }}</p>
+                <p class="text-gray-600">Username: {{ $user->username }}</p>
                 <p class="text-gray-600">Email: {{ $user->email }}</p>
             </div>
         </div>

@@ -11,20 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('books');
-        
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
             $table->text('synopsis');
-            $table->unsignedBigInteger('author_id');
+            $table->foreignIdFor(\App\Models\Author::class)->constrained()->cascadeOnDelete();
             $table->text('cover_image_link'); 
             $table->timestamps();
 
-            $table->foreign('author_id')
-                ->references('id')
-                ->on('authors')
-                ->onDelete('cascade');
+            $table->engine = 'InnoDB';
         });
     }
 

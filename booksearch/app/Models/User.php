@@ -58,4 +58,10 @@ class User extends Authenticatable
     public function favourites(){
         return $this->hasMany(Favourite::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
+
 }
