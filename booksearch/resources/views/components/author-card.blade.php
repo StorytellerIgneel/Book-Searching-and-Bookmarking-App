@@ -3,11 +3,17 @@
 <div class="bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-200 transform hover:scale-[1.02] h-full flex flex-col">
     <a href="{{ route('authors.show', $author->id) }}" class="block p-5 group flex-grow">
         <div class="flex items-start space-x-4">
-            <!-- Author Avatar Placeholder -->
-            <div class="flex-shrink-0 h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
+            <!-- Author Avatar -->
+            <div class="flex-shrink-0 h-12 w-12 rounded-full overflow-hidden">
+                @if($author->image_link && file_exists(public_path($author->image_link)))
+                    <img src="{{ asset($author->image_link) }}" alt="{{ $author->name }}" class="h-12 w-12 rounded-full">
+                @else
+                    <div class="h-12 w-12 rounded-full bg-gray-200 flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                    </div>
+                @endif
             </div>
             
             <div>

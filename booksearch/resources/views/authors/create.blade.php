@@ -1,5 +1,5 @@
 <h1>Create Author</h1>
-<form action="createAuthor" method="post" enctype="multipart/form-data">
+<form action="{{ route('authors.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <input type="text" name="name" placeholder="Type author's name" value="{{ old('name') }}"><br>
     <span style="color: red">@error('name'){{ $message }}@enderror</span><br><br>

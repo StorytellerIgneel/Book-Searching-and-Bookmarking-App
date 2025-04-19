@@ -73,7 +73,7 @@
                         >
                             <span class="absolute inset-0 rounded-full"></span>
                             <span class="relative inline-flex h-full w-full overflow-hidden rounded-full bg-gray-100">
-                                @if( auth()->user()->profile_image_link )
+                                @if( auth()->user()->profile_image_link && file_exists(public_path(auth()->user()->profile_image_link)))
                                     <img 
                                         class="h-full w-full object-cover" 
                                         src="{{ asset(Auth::user()->profile_image_link) }}" 
