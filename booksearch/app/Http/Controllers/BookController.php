@@ -112,8 +112,6 @@ class BookController extends Controller
         // $data->password = $req->password;
         // $data->save();
 
-        $this->authorize('update', $book);
-
         $book->update($req->all());
         $book->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
         return redirect("books")->with("success_message", "Book updated successfully");
