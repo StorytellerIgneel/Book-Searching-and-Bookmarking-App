@@ -109,12 +109,11 @@
                     </div>
 
                     <a href="{{ route('books.edit', $book) }}">Edit Book</a><br>
-                    <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this book?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit">Delete Book</button>
                     </form><br>
-                    <a href="{{ route('books.index') }}">Back to Books</a>
 
                 </div>
                 
