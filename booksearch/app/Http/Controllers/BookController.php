@@ -75,7 +75,7 @@ class BookController extends Controller
     public function store(Request $request){
         $this->authorize('create', Book::class);
 
-        $request->validate([
+        $validated = $request->validate([
             "title" => "required|string|max:191|unique:books",
             "synopsis" => "required|string|max:1000",
             "cover"=> ["required", File::image()->min('1kb')->max('10mb'),
@@ -84,14 +84,14 @@ class BookController extends Controller
             "author_id" => "required|integer|exists:authors,id"
         ]);
 
-        $imageUrl = $request->file("cover")->store("images/book_covers", "public");
+        $imageUrl = 'storage/' . $request->file("cover")->store("images/book_covers", "public");
 
         //store book data mass assignmebt
         $book = Book::create([
-            "title" => $request->title,
-            "synopsis" => $request->synopsis,
-            "cover_image_link" => "storage/" . $imageUrl, 
-            "author_id" => $request->author_id,
+                "title" => $validated['title'],
+                "synopsis" => $validated['synopsis'],
+                "cover_image_link" => $imageUrl,
+                "author_id" => $validated['author_id'],
         ]);
 
         return redirect()->route('books.show', $book)->with("success_message", "Book created successfully");
@@ -125,10 +125,13 @@ class BookController extends Controller
 
         if ($request->hasFile('cover')) {
             // Delete old cover if exists
-            if ($book->cover_image_link && Storage::disk('public')->exists($book->cover_image_link)) {
-                Storage::disk('public')->delete($book->cover_image_link);
-            }
-            
+            if ($book->cover_image_link) {
+                $coverPath = str_replace('storage/', '', $book->cover_image_link);
+                if (Storage::disk('public')->exists($coverPath)) {
+                    Storage::disk('public')->delete($coverPath);
+                }
+            }            
+
             $book->cover_image_link = 'storage/' . $request->file('cover')->store('images/books', 'public');
             $book->save();
         }
@@ -138,6 +141,13 @@ class BookController extends Controller
 
     public function destroy(Book $book){
         $this->authorize('delete', $book);
+
+        if ($book->cover_image_link) {
+            $coverPath = str_replace('storage/', '', $book->cover_image_link);
+            if (Storage::disk('public')->exists($coverPath)) {
+                Storage::disk('public')->delete($coverPath);
+            }
+        }     
 
         $book->delete();
         return redirect("books")->with("success_message", "Book deleted successfully");
