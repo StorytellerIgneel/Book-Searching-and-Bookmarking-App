@@ -13,7 +13,7 @@
         <input type="number" name="author_id" placeholder="Type book author's id" value="{{ $book->author_id }}"><br>
         <span style="color: red">@error('author_id'){{ $message }}@enderror</span><br><br>
 
-        <input type="file" name="cover" required placeholder="Upload book cover"><br><br>
+        <input type="file" name="cover" placeholder="Upload book cover"><br><br>
         <span style="color: red">@error('cover'){{ $message }}@enderror</span><br>
         <button type = "submit">Edit</button>
     </form>

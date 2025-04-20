@@ -59,15 +59,21 @@ class BookController extends Controller
     }
 
     public function editBook(Request $req){
-        $data = Book::find($req->id);
-        
-        // $data->name = $req->name;
-        // $data->email = $req->email;
-        // $data->password = $req->password;
-        // $data->save();
+        $req->validate([
+            "title" => "required | max: 191",
+            "synopsis" => "required",
+            "author_id" => "required|integer| exists:authors,id"
+        ]);
 
-        $data->update($req->all());
-        $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        $data = Book::find($req->id);
+
+        $data->title = $req->title;
+        $data->synopsis = $req->synopsis;
+        $data->author_id = $req->author_id;
+        if ($req->file("cover")) {
+            $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        }
+        $data->save();
         return redirect("books")->with("success_message", "Book updated successfully");
     }
 
@@ -172,13 +178,21 @@ class BookController extends Controller
     }
 
     public function update(Book $book, Request $req){
-        // $data->name = $req->name;
-        // $data->email = $req->email;
-        // $data->password = $req->password;
-        // $data->save();
+        $req->validate([
+            "title" => "required | max: 191",
+            "synopsis" => "required",
+            "author_id" => "required|integer| exists:authors,id"
+        ]);
 
-        $book->update($req->all());
-        $book->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        $data = Book::find($req->id);
+
+        $data->title = $req->title;
+        $data->synopsis = $req->synopsis;
+        $data->author_id = $req->author_id;
+        if ($req->file("cover")) {
+            $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        }
+        $data->save();
         return redirect("books")->with("success_message", "Book updated successfully");
     }
 

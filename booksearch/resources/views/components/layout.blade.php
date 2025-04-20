@@ -153,7 +153,7 @@
                             Favourite Books
                         </x-nav.item>
 
-
+                        @can("access-admin")
                         <x-nav.header>USER MANAGEMENT</x-nav.header>
 
                         <x-nav.item href="user" :active="request()->is('user')" >
@@ -166,9 +166,10 @@
                             </x-slot:icon>
                             User List
                         </x-nav.item>
+                        @endcan
 
                         @auth
-                            @if(auth()->user()->is_admin)
+                            @can('access-admin')
                                 <x-nav.header>ADMIN PAGES</x-nav.header>
 
                                 <x-nav.item href="{{ route('books.create') }}" :active="request()->routeIs('books.create')">
@@ -188,7 +189,7 @@
                                     </x-slot:icon>
                                     Create New Author
                                 </x-nav.item>
-                            @endif
+                            @endcan
                         @endauth
                     </ul>
                 </nav>
