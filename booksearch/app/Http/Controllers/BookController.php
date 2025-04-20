@@ -125,10 +125,13 @@ class BookController extends Controller
 
         if ($request->hasFile('cover')) {
             // Delete old cover if exists
-            if ($book->cover_image_link && Storage::disk('public')->exists($book->cover_image_link)) {
-                Storage::disk('public')->delete($book->cover_image_link);
-            }
-            
+            if ($book->cover_image_link) {
+                $coverPath = str_replace('storage/', '', $book->cover_image_link);
+                if (Storage::disk('public')->exists($coverPath)) {
+                    Storage::disk('public')->delete($coverPath);
+                }
+            }            
+
             $book->cover_image_link = 'storage/' . $request->file('cover')->store('images/books', 'public');
             $book->save();
         }
@@ -138,6 +141,13 @@ class BookController extends Controller
 
     public function destroy(Book $book){
         $this->authorize('delete', $book);
+
+        if ($book->cover_image_link) {
+            $coverPath = str_replace('storage/', '', $book->cover_image_link);
+            if (Storage::disk('public')->exists($coverPath)) {
+                Storage::disk('public')->delete($coverPath);
+            }
+        }     
 
         $book->delete();
         return redirect("books")->with("success_message", "Book deleted successfully");

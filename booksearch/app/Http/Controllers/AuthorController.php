@@ -56,17 +56,17 @@ class AuthorController extends Controller
         $validated = $request->validate([
             "name" => "required|max:191",
             "bio" => "required|string|max:1000",
-            "cover"=> ["required", File::image()->min('1kb')->max('10mb'),
+            "image"=> ["required", File::image()->min('1kb')->max('10mb'),
                 Rule::dimensions()->maxHeight(4000)->maxWidth(4000)],
         ],);
 
-        $imageUrl = $request->file("image")->store("images/authors", "public");
+        $imageUrl = 'storage/' . $request->file("image")->store("images/authors", "public");
 
         //store author data mass assignmebt
         $author = Author::create([
-            "name" => $request->name,
-            "bio" => $request->bio,
-            "image_link" => ("storage/". $imageUrl), // $imageName
+            "name" => $validated['name'],
+            "bio" => $validated['bio'],
+            "image_link" => $imageUrl,
         ]);
 
         return redirect()->route('authors.show', $author)->with("success_message", "Author created successfully");
@@ -84,7 +84,7 @@ class AuthorController extends Controller
         $validated = $request->validate([
             "name" => "required|max:191",
             "bio" => "required|string|max:1000",
-            "cover"=> ["nullable", File::image()->min('1kb')->max('10mb'),
+            "image"=> ["nullable", File::image()->min('1kb')->max('10mb'),
                 Rule::dimensions()->maxHeight(4000)->maxWidth(4000)],
         ]);
 
@@ -93,13 +93,14 @@ class AuthorController extends Controller
             "bio" => $validated['bio'],
         ]);
 
-        if ($request->hasFile('cover')) {
-            // Delete old cover if exists
-            if ($author->image_link && Storage::disk('public')->exists($author->image_link)) {
-                Storage::disk('public')->delete($author->image_link);
+        if ($request->hasFile('image')) {
+            // Delete old image if exists
+            $oldImagePath = str_replace('storage/', '', $author->image_link);
+            if ($author->image_link && Storage::disk('public')->exists($oldImagePath)) {
+                Storage::disk('public')->delete($oldImagePath);
             }
             
-            $author->image_link = 'storage/' . $request->file('cover')->store('images/authors', 'public');
+            $author->image_link = 'storage/' . $request->file('image')->store('images/authors', 'public');
             $author->save();
         }
         
@@ -108,7 +109,15 @@ class AuthorController extends Controller
 
     public function destroy(Author $author){
         $this->authorize('delete', $author);
+
+        // Delete old image if exists
+        $oldImagePath = str_replace('storage/', '', $author->image_link);
+        if ($author->image_link && Storage::disk('public')->exists($oldImagePath)) {
+            Storage::disk('public')->delete($oldImagePath);
+        }
+
         $author->delete();
+        
         return redirect("authors")->with("success_message", "Author deleted successfully");
     }
 }
