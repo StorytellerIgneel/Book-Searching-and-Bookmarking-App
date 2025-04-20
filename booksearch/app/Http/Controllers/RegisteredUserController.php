@@ -57,4 +57,10 @@ class RegisteredUserController extends Controller
 
         return redirect('/')->with('success_message', 'Profile created successfully.');
     }
+
+    public function viewUsers()
+    {
+        $user = User::paginate(6); // Show 6 users per page
+        return view('user', ['users' => $user]); // Return the view with users data    
+    }
 }

@@ -156,7 +156,7 @@
                         @can("access-admin")
                         <x-nav.header>USER MANAGEMENT</x-nav.header>
 
-                        <x-nav.item href="user" :active="request()->is('user')" >
+                        <x-nav.item href="/users" :active="request()->is('users')" >
                             <x-slot:icon>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                 stroke="currentColor" class="w-4 mr-3">
