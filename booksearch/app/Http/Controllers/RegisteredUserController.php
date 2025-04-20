@@ -61,6 +61,6 @@ class RegisteredUserController extends Controller
     public function viewUsers()
     {
         $user = User::paginate(6); // Show 6 users per page
-        return view('user', ['users' => $user]); // Return the view with users data    
+        return view('users', ['users' => $user]); // Return the view with users data    
     }
 }
