@@ -1,6 +1,6 @@
 <x-layout>
     <x-header>
-        <div class="flex justify-between items-center w-full">
+        <div class="flex justify-between items-center max-w-5xl mx-auto">
             <a href="{{ route('authors.index') }}" class="text-blue-600 hover:text-blue-800 flex items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                     <path fill-rule="evenodd"
@@ -10,7 +10,7 @@
                 Back to Authors
             </a>
             <span>Author Details</span>
-            <div class="w-24"></div> <!-- Spacer for alignment -->
+            <div class="w-24"></div>
         </div>
     </x-header>
 
