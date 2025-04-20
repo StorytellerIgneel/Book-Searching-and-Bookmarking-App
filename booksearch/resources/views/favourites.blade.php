@@ -40,10 +40,15 @@
                     @foreach($favourites as $favourite)
                         <div class="favourite-item" onclick="window.location.href='{{ url('/books/' . $favourite->book->id) }}'">
 
-                            <!-- Uncomment the line below to use the actual book cover image -->
-                            <img src="{{ $favourite->book->cover_image_link ?? 'https://via.placeholder.com/150' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;">
-                            <!-- <img src="{{ 'https://randomwordgenerator.com/img/picture-generator/50e5d6474e5bb10ff3d8992cc12c30771037dbf85254784d712f7dd59245_640.jpg' }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;"> -->
-                            
+                            @if($favourite->book->cover_image_link && file_exists(public_path($favourite->book->cover_image_link)))
+                            <img src="{{ $favourite->book->cover_image_link }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;">
+                        @else
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.0" stroke="currentColor"> 
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" 
+                            style="width: 100%; height: auto; border-radius: 8px;"/> 
+                        </svg>
+                        @endif
+                        
                             <p>{{ $favourite->book->title ?? 'Unknown Title' }}</p>
                             <p>Rating: 
                                 @if ($favourite->book->ratings_avg_score)
