@@ -9,6 +9,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 // Home Page
@@ -18,8 +19,8 @@ Route::get('/', HomeController::class)->name('home');
 Route::get('/search', SearchController::class)->name('search');
 
 //User Management route
-Route::get('/users', [RegisteredUserController::class, 'viewUsers'])->name('users.index');
-Route::patch('/users/{user}/toggle-admin', [RegisteredUserController::class, 'toggleAdmin'])
+Route::get('/users', [AdminUserController::class, 'viewUsers'])->name('users.index');
+Route::patch('/users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
     ->name('users.toggle-admin');
 
 // Authentication Routes
