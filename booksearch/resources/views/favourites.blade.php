@@ -7,10 +7,11 @@
                 display: flex;
                 flex-wrap: wrap;
                 gap: 1rem;
+                justify-content: center;
             }
 
             .favourite-item {
-                flex: 1 1 calc(33.333% - 1rem);
+                width: 250px;
                 background-color: white;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
