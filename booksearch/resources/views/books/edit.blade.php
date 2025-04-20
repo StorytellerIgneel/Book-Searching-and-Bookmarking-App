@@ -13,9 +13,9 @@
                     <!-- Image Preview Container -->
                     <div class="flex-shrink-0 relative">
                         <span class="inline-block h-32 w-24 overflow-hidden bg-gray-100 rounded-md">
-                            @if($book->cover && file_exists(public_path($book->cover)))
+                            @if($book->cover_image_link && file_exists(public_path($book->cover_image_link)))
                                 <!-- Current cover image -->
-                                <img id="current-cover" src="{{ asset($book->cover) }}" alt="Current book cover"
+                                <img id="current-cover" src="{{ asset($book->cover_image_link) }}" alt="Current book cover"
                                     class="h-full w-full object-cover rounded-md">
                                 <!-- Book-themed SVG placeholder (hidden when image exists) -->
                                 <svg id="book-placeholder-svg" class="hidden h-full w-full text-gray-300" fill="currentColor"

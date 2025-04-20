@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class AuthorController extends Controller
 {
     use AuthorizesRequests;
+    
     public function index(){
         $authors = Author::query()
             ->with(['books' => function($query) {

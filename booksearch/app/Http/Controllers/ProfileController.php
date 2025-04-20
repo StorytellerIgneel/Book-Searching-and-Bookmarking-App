@@ -35,7 +35,7 @@ class ProfileController extends Controller
             'profile_picture' => [
                 'nullable',
                 File::image()->min('1kb')->max('10mb'),
-                Rule::dimensions()->maxHeight(1000)->maxWidth(1000),
+                Rule::dimensions()->maxHeight(4000)->maxWidth(4000),
             ],
             'username' => [
                 'required',

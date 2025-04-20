@@ -7,83 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\Rating;
 use App\Models\Favourite;
 use Illuminate\Support\Facades\Auth;
-use App\Policies\BookPolicy;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
-    public function showBookDetails($id){
-        $book = Book::find($id);
-        return view("bookDetails", compact("book"));
-    }
-
-    // `public function index(){
-    //     $books = Book::all();
-    //     return view("books", compact("books"));
-    // }`
-
-    public function showCreateBookForm(){
-        return view("createBookForm");
-    }
-    
-    public function createBook(Request $request){
-        $request->validate([
-            "title" => "required | max: 191",
-            "synopsis" => "required",
-            "cover"=>"required",
-            "author_id" => "required|integer|　exists:authors,id"
-        ]);
-
-        //store image link
-        // $imageName = time().'.'.$request->image->extension();
-        // $request->image->move(public_path('images'), $imageName);
-        $imageUrl = $request->file("cover")->store("images/book_covers", "public");
-
-        //store author data mass assignmebt
-        Book::create([
-            "title" => $request->title,
-            "synopsis" => $request->synopsis,
-            "cover_image_link" => "storage/" . $imageUrl, // $imageName
-            "author_id" => $request->author_id,
-        ]);
-
-        return redirect("books")->with("success_message", "Book created successfully");
-    }
-
-    public function showEditBookForm($id){
-        $book = Book::find($id);
-        if (!$book) {
-            return redirect()->route('books.index')->with('error_message', 'Book not found.');
-        }
-        return view("editBookForm", ["book"=>$book]);
-    }
-
-    public function editBook(Request $req){
-        $req->validate([
-            "title" => "required | max: 191",
-            "synopsis" => "required",
-            "author_id" => "required|integer| exists:authors,id"
-        ]);
-
-        $data = Book::find($req->id);
-
-        $data->title = $req->title;
-        $data->synopsis = $req->synopsis;
-        $data->author_id = $req->author_id;
-        if ($req->file("cover")) {
-            $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
-        }
-        $data->save();
-        return redirect("books")->with("success_message", "Book updated successfully");
-    }
-
-    function deleteBook($id){
-        $data = Book::find($id);
-        $data->delete();
-        return redirect("books")->with("success_message", "Book deleted successfully");
-    }
-
     use AuthorizesRequests;
+
     public function index(){
         $books = Book::query()
             ->with(['author', 'ratings', 'favourites'])
@@ -141,63 +73,72 @@ class BookController extends Controller
     }
     
     public function store(Request $request){
-
         $this->authorize('create', Book::class);
 
         $request->validate([
-            "title" => "required | max: 191",
-            "synopsis" => "required",
-            "cover"=>"required",
-            "author_id" => "required"
+            "title" => "required|string|max:191|unique:books",
+            "synopsis" => "required|string|max:1000",
+            "cover"=> ["required", File::image()->min('1kb')->max('10mb'),
+                Rule::dimensions()->maxHeight(4000)->maxWidth(4000),
+            ],
+            "author_id" => "required|integer|exists:authors,id"
         ]);
 
-        //store image link
-        // $imageName = time().'.'.$request->image->extension();
-        // $request->image->move(public_path('images'), $imageName);
         $imageUrl = $request->file("cover")->store("images/book_covers", "public");
 
-        //store author data mass assignmebt
-        Book::create([
+        //store book data mass assignmebt
+        $book = Book::create([
             "title" => $request->title,
             "synopsis" => $request->synopsis,
-            "cover_image_link" => "storage/" . $imageUrl, // $imageName
+            "cover_image_link" => "storage/" . $imageUrl, 
             "author_id" => $request->author_id,
         ]);
 
-        return redirect("books")->with("success_message", "Book created successfully");
+        return redirect()->route('books.show', $book)->with("success_message", "Book created successfully");
     }
 
     public function edit(Book $book){
-        
         $this->authorize('update', $book);
 
-        if (!$book) {
-            return redirect()->route('books.index')->with('error_message', 'Book not found.');
-        }
         return view("books.edit", ["book" => $book]);
     }
 
-    public function update(Book $book, Request $req){
-        $req->validate([
-            "title" => "required | max: 191",
-            "synopsis" => "required",
-            "author_id" => "required|integer| exists:authors,id"
+    public function update(Book $book, Request $request){
+        $this->authorize('update', $book);
+
+        $validated = $request->validate([
+            "title" => ["required", "string", "max:191", 
+                Rule::unique('books')->ignore($book->id)],
+            "synopsis" => "required|string|max:1000",
+            "author_id" => "required|integer|exists:authors,id",
+            "cover" => ["nullable", 
+                File::image()->min('1kb')->max('10mb'),
+                Rule::dimensions()->maxHeight(4000)->maxWidth(4000),
+            ],
         ]);
 
-        $data = Book::find($req->id);
+        $book->update([
+            'title' => $validated['title'],
+            'synopsis' => $validated['synopsis'],
+            'author_id' => $validated['author_id']
+        ]);
 
-        $data->title = $req->title;
-        $data->synopsis = $req->synopsis;
-        $data->author_id = $req->author_id;
-        if ($req->file("cover")) {
-            $data->cover_image_link = "storage/" . $req->file("cover")->store("images/book_covers", "public");
+        if ($request->hasFile('cover')) {
+            // Delete old cover if exists
+            if ($book->cover_image_link && Storage::disk('public')->exists($book->cover_image_link)) {
+                Storage::disk('public')->delete($book->cover_image_link);
+            }
+            
+            $book->cover_image_link = 'storage/' . $request->file('cover')->store('images/books', 'public');
+            $book->save();
         }
-        $data->save();
-        return redirect("books")->with("success_message", "Book updated successfully");
+
+        return redirect()->route('books.show', $book)->with("success_message", "Book updated successfully");
     }
 
     public function destroy(Book $book){
         $this->authorize('delete', $book);
+
         $book->delete();
         return redirect("books")->with("success_message", "Book deleted successfully");
     }
