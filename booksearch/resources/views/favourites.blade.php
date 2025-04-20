@@ -12,6 +12,7 @@
 
             .favourite-item {
                 width: 250px;
+                height: 350px;
                 background-color: white;
                 box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
                 border-radius: 8px;
@@ -30,6 +31,7 @@
             .favourite-item p {
                 margin: 0.5rem 0;
                 color: #4a5568;
+                bottom: 0;
             }
         </style>
 
@@ -42,14 +44,13 @@
                         <div class="favourite-item" onclick="window.location.href='{{ url('/books/' . $favourite->book->id) }}'">
 
                             @if($favourite->book->cover_image_link && file_exists(public_path($favourite->book->cover_image_link)))
-                            <img src="{{ $favourite->book->cover_image_link }}" alt="Book Cover" style="width: 100%; height: auto; border-radius: 8px;">
+                            <img src="{{ $favourite->book->cover_image_link }}" alt="Book Cover" style="width: 210px; height: 210px; border-radius: 8px;">
                         @else
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.0" stroke="currentColor"> 
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" 
-                            style="width: 100%; height: auto; border-radius: 8px;"/> 
-                        </svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.0" stroke="currentColor" > 
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" 
+                                style="width: 210px; height: 210px; border-radius: 8px;"/> 
+                            </svg>
                         @endif
-                        
                             <p>{{ $favourite->book->title ?? 'Unknown Title' }}</p>
                             <p>Rating: 
                                 @if ($favourite->book->ratings_avg_score)
@@ -57,7 +58,7 @@
                                 @else
                                     No Rating
                                 @endif
-                            </p>
+                            </p> 
                         </div>
                     @endforeach
                 </div>
