@@ -24,7 +24,7 @@ class AdminUserController extends Controller
     public function viewUsers()
     {
         // Get all users with pagination
-        $user = User::paginate(6); // Show 6 users per page
+        $user = User::paginate(100); // Show 100 users per page
         return view('users', ['users' => $user]); // Return the view with users data    
     }
 
