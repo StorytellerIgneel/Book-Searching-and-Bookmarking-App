@@ -13,9 +13,9 @@
                     <!-- Image Preview Container -->
                     <div class="flex-shrink-0 relative">
                         <span class="inline-block h-20 w-20 overflow-hidden rounded-full bg-gray-100">
-                            @if($author->image && file_exists(public_path($author->image)))
+                            @if($author->image_link && file_exists(public_path($author->image_link)))
                                 <!-- Current author image -->
-                                <img id="current-image" src="{{ asset($author->image) }}" alt="Current author image"
+                                <img id="current-image" src="{{ asset($author->image_link) }}" alt="Current author image"
                                     class="h-full w-full object-cover rounded-full">
                                 <!-- Default SVG placeholder (hidden when image exists) -->
                                 <svg id="placeholder-svg" class="hidden h-full w-full text-gray-300" fill="currentColor"
