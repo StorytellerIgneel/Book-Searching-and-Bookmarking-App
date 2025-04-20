@@ -13,7 +13,7 @@ class FavouriteController extends Controller
         $favourites = Favourite::where('user_id', $request->user()->id)
             ->with([
                 'book' => function ($query) {
-                    $query->withAvg('ratings', 'score'); // 👈 Add this
+                    $query->withAvg('ratings', 'score'); 
                 }
             ])
             ->get();
@@ -32,7 +32,7 @@ class FavouriteController extends Controller
             'book_id' => $validated['book_id']
         ]);
     
-        return back()->with('success', 'Added to favourites!');
+        return back()->with('success_message', 'Added to favourites!');
     }
     
     public function destroy(Request $request){
@@ -40,10 +40,10 @@ class FavouriteController extends Controller
             'book_id' => ['required', 'exists:books,id'],
         ]);
 
-        Favourite::where('user_id', $request->user()->id)
+        $favourite = Favourite::where('user_id', $request->user()->id)
                 ->where('book_id', $validated['book_id'])
                 ->delete();
 
-        return back()->with('success', 'Removed from favourites!');
+        return back()->with('success_message', 'Removed from favourites!');
     }
 }
