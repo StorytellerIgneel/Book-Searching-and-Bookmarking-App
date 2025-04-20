@@ -19,6 +19,8 @@ Route::get('/search', SearchController::class)->name('search');
 
 //User Management route
 Route::get('/users', [RegisteredUserController::class, 'viewUsers'])->name('users.index');
+Route::patch('/users/{user}/toggle-admin', [RegisteredUserController::class, 'toggleAdmin'])
+    ->name('users.toggle-admin');
 
 // Authentication Routes
 Route::middleware('guest')->group(function () {

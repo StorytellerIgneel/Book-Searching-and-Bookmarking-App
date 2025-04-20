@@ -41,7 +41,14 @@
                                 {{ $user->phone ?? 'Not provided' }}
                             </td>
                             <td class="td">
-                                {{ $user->is_admin }}
+                                <form action="{{ route('users.toggle-admin', $user) }}" method="POST" class="inline">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit" 
+                                            class="px-3 py-1 text-sm rounded-full {{ $user->is_admin ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }} hover:bg-opacity-75 transition-colors">
+                                        {{ $user->is_admin ? 'Admin' : 'Not Admin' }}
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
