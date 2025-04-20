@@ -6,11 +6,15 @@ use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
+
 
 class AuthorController extends Controller
 {
     use AuthorizesRequests;
-    
+
     public function index(){
         $authors = Author::query()
             ->with(['books' => function($query) {
@@ -42,50 +46,64 @@ class AuthorController extends Controller
     
     public function create(){
         $this->authorize('create', Author::class); 
+
         return view("authors.create");
     }
     
     public function store(Request $request){
-        $request->validate([ //validate, redirect if fail, then run if ok
-            "name" => "required | max: 191",
-            "bio" => "required|string",
-            "image"=>"required | image | mimes:jpeg,png,jpg,gif,svg | max:2048",
-        ]);
+        $this->authorize('create', Author::class); 
 
-        //store image link
-        // $imageName = time().'.'.$request->image->extension();
-        // $request->image->move(public_path('images'), $imageName);
+        $validated = $request->validate([
+            "name" => "required|max:191",
+            "bio" => "required|string|max:1000",
+            "cover"=> ["required", File::image()->min('1kb')->max('10mb'),
+                Rule::dimensions()->maxHeight(4000)->maxWidth(4000)],
+        ],);
+
         $imageUrl = $request->file("image")->store("images/authors", "public");
-        // $imageUrl = "storage/app/public/images/authors/".$imageName;
 
         //store author data mass assignmebt
-        Author::create([
+        $author = Author::create([
             "name" => $request->name,
             "bio" => $request->bio,
             "image_link" => ("storage/". $imageUrl), // $imageName
         ]);
 
-        return redirect("authors")->with("success_message", "Author created successfully");
+        return redirect()->route('authors.show', $author)->with("success_message", "Author created successfully");
     }
 
     public function edit(Author $author){
         $this->authorize('update', $author);
-        if (!$author) {
-            return redirect()->route('authors.index')->with('error_message', 'Author not found.');
-        }
 
         return view('authors.edit', ["author" => $author]);
     }
 
-    public function update(Author $author, Request $req){  
-        // $data->name = $req->name;
-        // $data->email = $req->email;
-        // $data->password = $req->password;
-        // $data->save();
+    public function update(Author $author, Request $request){  
+        $this->authorize('update', $author);
 
-        $author->update($req->all());
-        $author->image_link = "storage/" . $req->file("image")->store("images/authors", "public");
-        return redirect("authors")->with("success_message", "Author updated successfully");
+        $validated = $request->validate([
+            "name" => "required|max:191",
+            "bio" => "required|string|max:1000",
+            "cover"=> ["nullable", File::image()->min('1kb')->max('10mb'),
+                Rule::dimensions()->maxHeight(4000)->maxWidth(4000)],
+        ]);
+
+        $author->update([
+            "name" => $validated['name'],
+            "bio" => $validated['bio'],
+        ]);
+
+        if ($request->hasFile('cover')) {
+            // Delete old cover if exists
+            if ($author->image_link && Storage::disk('public')->exists($author->image_link)) {
+                Storage::disk('public')->delete($author->image_link);
+            }
+            
+            $author->image_link = 'storage/' . $request->file('cover')->store('images/authors', 'public');
+            $author->save();
+        }
+        
+        return redirect()->route('authors.show', $author)->with("success_message", "Author updated successfully");
     }
 
     public function destroy(Author $author){
