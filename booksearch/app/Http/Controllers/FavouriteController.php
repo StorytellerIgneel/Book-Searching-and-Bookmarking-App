@@ -27,7 +27,7 @@ class FavouriteController extends Controller
             'book_id' => ['required', 'exists:books,id'],
         ]);
     
-        $favourite = Favourite::firstOrCreate([
+        Favourite::firstOrCreate([
             'user_id' => $request->user()->id,
             'book_id' => $validated['book_id']
         ]);
@@ -40,7 +40,7 @@ class FavouriteController extends Controller
             'book_id' => ['required', 'exists:books,id'],
         ]);
 
-        $favourite = Favourite::where('user_id', $request->user()->id)
+        Favourite::where('user_id', $request->user()->id)
                 ->where('book_id', $validated['book_id'])
                 ->delete();
 
