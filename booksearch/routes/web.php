@@ -18,11 +18,6 @@ Route::get('/', HomeController::class)->name('home');
 // Search
 Route::get('/search', SearchController::class)->name('search');
 
-//User Management route
-Route::get('/users', [AdminUserController::class, 'viewUsers'])->name('users.index');
-Route::patch('/users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
-    ->name('users.toggle-admin');
-
 // Authentication Routes
 Route::middleware('guest')->group(function () {
     Route::get('/login', [SessionController::class, 'create'])->name('login');
@@ -32,6 +27,11 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [RegisteredUserController::class, 'store'])->name('register.store');
 });
 Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');  
+
+//User Management route
+Route::get('/users', [AdminUserController::class, 'viewUsers'])->name('users.index');
+Route::patch('/users/{user}/toggle-admin', [AdminUserController::class, 'toggleAdmin'])
+    ->name('users.toggle-admin');
 
 // Book routes
 Route::controller(BookController::class)->group(function () {
