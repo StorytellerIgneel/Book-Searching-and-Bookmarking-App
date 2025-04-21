@@ -53,7 +53,7 @@ class HomeController extends Controller {
                 ->withCount(['ratings', 'favourites'])
                 ->withAvg('ratings', 'score')
                 ->orderByRaw('FIELD(id, '.implode(',', $recentlyBrowsedIds).')')
-                ->take(6)
+                ->take(10)
                 ->get()
             : collect();
         
