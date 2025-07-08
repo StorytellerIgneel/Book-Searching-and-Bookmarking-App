@@ -1,6 +1,6 @@
 # 📚 Book Searching and Bookmarking App
 
-A full-stack web application for discovering, bookmarking, and reviewing books. Built with **Laravel** (backend) and **Vue.js** (frontend), this project is designed as part of an Advanced Web Application Development (AWAD) course.
+A full-stack web application for discovering, bookmarking, and reviewing books. Built with **Laravel** (backend) and **Vue.js** (frontend).
 
 ---
 
